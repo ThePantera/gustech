@@ -1,0 +1,71 @@
+---
+import { workSteps } from '../data/site';
+---
+
+<section class="section" id="como-trabajamos" aria-labelledby="proceso-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Cómo trabajamos</p>
+      <h2 id="proceso-title">Un proceso simple, en cinco pasos</h2>
+    </div>
+
+    <ol class="steps" role="list">
+      {
+        workSteps.map((step) => (
+          <li class="step">
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="note">
+      La asistencia presencial se coordina previamente, según ubicación y disponibilidad.
+    </p>
+  </div>
+</section>
+
+<style>
+  .steps {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: paso;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr));
+  }
+
+  .step {
+    counter-increment: paso;
+    position: relative;
+    padding-top: 3.5rem;
+  }
+
+  .step::before {
+    content: counter(paso);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-navy);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .step h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .step p {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

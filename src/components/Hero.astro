@@ -1,0 +1,117 @@
+---
+import { hero, cta } from '../data/site';
+---
+
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="hero-eyebrow">Soporte y soluciones IT para empresas</p>
+      <h1 id="hero-title">{hero.title}</h1>
+      <p class="hero-lead">{hero.description}</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href={cta.href}>{cta.label}</a>
+        <a class="btn btn-on-dark" href={hero.secondaryCta.href}>{hero.secondaryCta.label}</a>
+      </div>
+    </div>
+
+    <!-- Composición abstracta de red e infraestructura. Decorativa, sin datos ni métricas. -->
+    <svg
+      class="hero-art"
+      viewBox="0 0 400 320"
+      fill="none"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g stroke="#2563EB" stroke-width="2" stroke-linecap="round" opacity="0.8">
+        <path d="M200 160 90 70"></path>
+        <path d="M200 160 320 60"></path>
+        <path d="M200 160 340 200"></path>
+        <path d="M200 160 110 250"></path>
+        <path d="M200 160 230 280"></path>
+        <path d="M90 70 40 150"></path>
+        <path d="M320 60 370 120"></path>
+        <path d="M340 200 300 270"></path>
+        <path d="M110 250 50 240"></path>
+      </g>
+      <g stroke="#06B6D4" stroke-width="1.5" stroke-dasharray="4 6" opacity="0.6">
+        <circle cx="200" cy="160" r="70"></circle>
+        <circle cx="200" cy="160" r="120"></circle>
+      </g>
+      <g fill="#101C32" stroke="#2563EB" stroke-width="2.5">
+        <circle cx="90" cy="70" r="14"></circle>
+        <circle cx="320" cy="60" r="14"></circle>
+        <circle cx="340" cy="200" r="14"></circle>
+        <circle cx="110" cy="250" r="14"></circle>
+        <circle cx="230" cy="280" r="12"></circle>
+      </g>
+      <g fill="#06B6D4">
+        <circle cx="40" cy="150" r="6"></circle>
+        <circle cx="370" cy="120" r="6"></circle>
+        <circle cx="300" cy="270" r="6"></circle>
+        <circle cx="50" cy="240" r="6"></circle>
+      </g>
+      <circle cx="200" cy="160" r="34" fill="#101C32" stroke="#06B6D4" stroke-width="3"></circle>
+      <path
+        d="M200 142 216 151v18L200 178 184 169v-18L200 142Z"
+        stroke="#2563EB"
+        stroke-width="4"
+        stroke-linejoin="round"></path>
+      <circle cx="200" cy="160" r="4" fill="#06B6D4"></circle>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--color-navy);
+    color: #cbd5e1;
+    padding-block: var(--space-6);
+  }
+
+  .hero-inner {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .hero h1 {
+    color: #fff;
+  }
+
+  .hero-eyebrow {
+    margin: 0 0 var(--space-3);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-cyan);
+  }
+
+  .hero-lead {
+    max-width: 38rem;
+    font-size: var(--text-lg);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+  }
+
+  .hero-art {
+    width: 100%;
+    max-width: 26rem;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 56rem) {
+    .hero {
+      padding-block: var(--space-7);
+    }
+    .hero-inner {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+  }
+</style>

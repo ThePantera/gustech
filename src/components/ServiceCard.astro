@@ -1,0 +1,44 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  icon: 'headset' | 'server' | 'activity' | 'window' | 'shield' | 'wrench';
+  title: string;
+  items: readonly string[];
+}
+const { icon, title, items } = Astro.props;
+---
+
+<article class="card service-card">
+  <div class="service-icon"><Icon name={icon} /></div>
+  <h3>{title}</h3>
+  <ul>
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+</article>
+
+<style>
+  .service-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: var(--space-3);
+    border-radius: var(--radius);
+    background: rgb(37 99 235 / 0.08);
+    color: var(--color-primary);
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  li::marker {
+    color: var(--color-cyan);
+  }
+</style>

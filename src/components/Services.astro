@@ -1,0 +1,21 @@
+---
+import ServiceCard from './ServiceCard.astro';
+import { services } from '../data/site';
+---
+
+<section class="section" id="servicios" aria-labelledby="servicios-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Servicios IT</p>
+      <h2 id="servicios-title">Áreas de servicio para el día a día de tu empresa</h2>
+      <p class="lead">
+        Un acompañamiento ordenado para usuarios, equipos e infraestructura. El alcance de cada servicio
+        se define según tus necesidades en una propuesta técnica.
+      </p>
+    </div>
+
+    <div class="card-grid">
+      {services.map((service) => <ServiceCard {...service} />)}
+    </div>
+  </div>
+</section>

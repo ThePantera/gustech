@@ -1,0 +1,74 @@
+---
+import { site, contact } from '../data/site';
+
+// Sin backend: el botón abre el programa de correo del visitante con un mensaje precompletado.
+const mailto = `mailto:${site.email}?subject=${encodeURIComponent(contact.subject)}&body=${encodeURIComponent(contact.body)}`;
+---
+
+<section class="section" id="contacto" aria-labelledby="contacto-title">
+  <div class="container">
+    <div class="contact-card">
+      <div>
+        <p class="eyebrow contact-eyebrow">Contacto</p>
+        <h2 id="contacto-title">Contanos qué necesita tu empresa</h2>
+        <p class="contact-lead">
+          Describí brevemente tu necesidad y coordinamos los próximos pasos. Escribinos a{' '}
+          <a href={`mailto:${site.email}`}>{site.email}</a>.
+        </p>
+      </div>
+      <div class="contact-action">
+        <a class="btn btn-primary" href={mailto}>Solicitar asesoramiento por correo</a>
+        <p class="contact-note">Este botón abre tu programa de correo con un mensaje precompletado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-card {
+    display: grid;
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-5) var(--space-4);
+    background: var(--color-navy);
+    color: #cbd5e1;
+    border-radius: var(--radius-lg);
+  }
+
+  .contact-card h2 {
+    color: #fff;
+  }
+
+  .contact-eyebrow {
+    color: var(--color-cyan);
+  }
+
+  .contact-lead {
+    margin: 0;
+  }
+
+  .contact-card a:not(.btn) {
+    color: #fff;
+    text-underline-offset: 3px;
+  }
+  .contact-card a:not(.btn):hover {
+    color: var(--color-cyan);
+  }
+
+  .contact-note {
+    margin: var(--space-2) 0 0;
+    font-size: 0.875rem;
+    color: #94a3b8;
+  }
+
+  @media (min-width: 56rem) {
+    .contact-card {
+      grid-template-columns: 1.3fr 1fr;
+      padding: var(--space-6) var(--space-5);
+    }
+    .contact-action {
+      justify-self: end;
+      max-width: 20rem;
+    }
+  }
+</style>

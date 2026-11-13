@@ -1,0 +1,101 @@
+---
+import Logo from './Logo.astro';
+import { nav, site } from '../data/site';
+
+// Año calculado al generar el sitio.
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <Logo light />
+      <p class="footer-tagline">{site.tagline}</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Enlaces del sitio">
+      <ul role="list">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="footer-contact">
+      <p class="footer-label">Contacto</p>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {year} {site.name}. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-navy);
+    color: #cbd5e1;
+    padding-top: var(--space-6);
+    font-size: var(--text-sm);
+  }
+
+  .footer-inner {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .footer-tagline {
+    margin: var(--space-3) 0 0;
+    max-width: 22rem;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+  }
+
+  /* Área táctil de al menos 44 px de alto. */
+  a {
+    display: inline-block;
+    padding-block: 0.65rem;
+    color: #fff;
+    text-decoration-color: rgb(255 255 255 / 0.35);
+    text-underline-offset: 3px;
+  }
+  a:hover {
+    color: var(--color-cyan);
+    text-decoration-color: currentColor;
+  }
+
+  .footer-label {
+    margin: 0 0 var(--space-2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    color: #94a3b8;
+  }
+
+  .footer-bottom {
+    margin-top: var(--space-5);
+    padding-block: var(--space-4);
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+  }
+  .footer-bottom p {
+    margin: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .footer-inner {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      align-items: start;
+    }
+  }
+</style>

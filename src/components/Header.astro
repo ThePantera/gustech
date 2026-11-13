@@ -1,0 +1,232 @@
+---
+import Logo from './Logo.astro';
+import { nav, cta } from '../data/site';
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/#inicio">
+      <Logo />
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+    >
+      <span class="visually-hidden">Menú</span>
+      <span class="menu-icon" aria-hidden="true"></span>
+    </button>
+
+    <div class="nav-panel" id="site-nav">
+      <nav aria-label="Principal">
+        <ul class="nav-list" role="list">
+          {
+            nav.map((item) => (
+              <li>
+                <a class="nav-link" href={item.href}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <a class="btn btn-primary" href={cta.href}>{cta.label}</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const panel = header?.querySelector<HTMLElement>('#site-nav');
+
+  if (header && toggle && panel) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      header.classList.toggle('is-open', open);
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Cerrar al elegir un enlace del menú.
+    panel.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    // Cerrar con Escape y devolver el foco al botón.
+    header.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(255 255 255 / 0.96);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: var(--header-height);
+  }
+
+  .brand {
+    display: inline-flex;
+    padding-block: 0.25rem;
+    text-decoration: none;
+    border-radius: var(--radius);
+  }
+
+  /* Sin JavaScript el menú queda siempre visible (ver .js más abajo). */
+  .nav-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+    flex-basis: 100%;
+    padding-bottom: var(--space-3);
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.65rem 0.25rem;
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .nav-link:hover {
+    color: var(--color-primary);
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  /* Móvil con JavaScript: panel desplegable bajo la cabecera. */
+  :global(html.js) .header-inner {
+    position: relative;
+  }
+  :global(html.js) .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  :global(html.js) .nav-panel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -1rem;
+    right: -1rem;
+    padding: var(--space-3) 1rem var(--space-4);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 12px 24px rgb(16 28 50 / 0.08);
+  }
+  :global(html.js) .site-header.is-open .nav-panel {
+    display: flex;
+  }
+
+  .menu-icon,
+  .menu-icon::before,
+  .menu-icon::after {
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--color-navy);
+    border-radius: 2px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .menu-icon {
+    position: relative;
+  }
+  .menu-icon::before,
+  .menu-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+  }
+  .menu-icon::before {
+    top: -6px;
+  }
+  .menu-icon::after {
+    top: 6px;
+  }
+  .site-header.is-open .menu-icon {
+    background: transparent;
+  }
+  .site-header.is-open .menu-icon::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+  .site-header.is-open .menu-icon::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  /* Modo de alto contraste: las barras del ícono usan el color del texto. */
+  @media (forced-colors: active) {
+    .menu-icon,
+    .menu-icon::before,
+    .menu-icon::after {
+      background: CanvasText;
+    }
+    .site-header.is-open .menu-icon {
+      background: transparent;
+    }
+  }
+
+  /* Escritorio: navegación en línea. */
+  @media (min-width: 62rem) {
+    .nav-panel,
+    :global(html.js) .nav-panel,
+    :global(html.js) .site-header.is-open .nav-panel {
+      display: flex;
+      position: static;
+      flex-direction: row;
+      align-items: center;
+      flex-basis: auto;
+      gap: var(--space-4);
+      padding: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+    .nav-list {
+      flex-direction: row;
+      gap: var(--space-3);
+    }
+    :global(html.js) .menu-toggle {
+      display: none;
+    }
+  }
+</style>

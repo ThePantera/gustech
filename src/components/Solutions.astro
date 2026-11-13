@@ -1,0 +1,37 @@
+---
+import { solutions } from '../data/site';
+---
+
+<section class="section section-alt" id="soluciones" aria-labelledby="soluciones-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Soluciones para empresas</p>
+      <h2 id="soluciones-title">Una propuesta que se adapta al tamaño de tu organización</h2>
+    </div>
+
+    <div class="card-grid">
+      {
+        solutions.map((solution) => (
+          <article class="card solution-card">
+            <h3>{solution.title}</h3>
+            <p>{solution.text}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="note">
+      Trabajamos por abono mensual o con servicios puntuales, siempre sujetos a relevamiento y propuesta.
+    </p>
+  </div>
+</section>
+
+<style>
+  .solution-card {
+    border-top: 3px solid var(--color-primary);
+  }
+  .solution-card p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+</style>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Página no encontrada | GUSTECH IT Solutions" noindex>
+  <section class="section">
+    <div class="container not-found">
+      <p class="eyebrow">Error 404</p>
+      <h1>No encontramos esta página</h1>
+      <p class="lead">
+        Es posible que el enlace haya cambiado o que la dirección esté mal escrita.
+      </p>
+      <a class="btn btn-primary" href="/">Volver al inicio</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    max-width: 40rem;
+    min-height: 40vh;
+  }
+</style>
