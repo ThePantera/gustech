@@ -6,6 +6,8 @@ export const site = {
   shortName: 'GUSTECH',
   url: 'https://gustech.com.ar',
   email: 'contacto@gustech.com.ar',
+  // Teléfono: contacto SECUNDARIO (el principal es el correo). Formato nacional.
+  phone: { display: '11 2388-4030', href: 'tel:1123884030' },
   locale: 'es-AR',
   // Tagline provisorio (pendiente de definición por el propietario).
   tagline: 'La tecnología de tu empresa, en buenas manos.',

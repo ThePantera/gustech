@@ -19,6 +19,9 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(contact.subjec
       <div class="contact-action">
         <a class="btn btn-primary" href={mailto}>Solicitar asesoramiento por correo</a>
         <p class="contact-note">Este botón abre tu programa de correo con un mensaje precompletado.</p>
+        <p class="contact-phone">
+          También podés llamar al <a href={site.phone.href}>{site.phone.display}</a>.
+        </p>
       </div>
     </div>
   </div>
@@ -59,6 +62,11 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(contact.subjec
     margin: var(--space-2) 0 0;
     font-size: 0.875rem;
     color: #94a3b8;
+  }
+
+  .contact-phone {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
   }
 
   @media (min-width: 56rem) {

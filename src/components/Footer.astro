@@ -28,6 +28,7 @@ const year = new Date().getFullYear();
     <div class="footer-contact">
       <p class="footer-label">Contacto</p>
       <a href={`mailto:${site.email}`}>{site.email}</a>
+      <a href={site.phone.href}>Tel. {site.phone.display}</a>
     </div>
   </div>
 
@@ -72,6 +73,11 @@ const year = new Date().getFullYear();
   a:hover {
     color: var(--color-cyan);
     text-decoration-color: currentColor;
+  }
+
+  .footer-contact a {
+    display: block;
+    width: fit-content;
   }
 
   .footer-label {
