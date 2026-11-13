@@ -40,7 +40,9 @@ El sitio se publica como sitio estático en Cloudflare:
 - **Comando de build:** `npm run build`
 - **Comando de deploy:** `npx wrangler deploy` (usa `wrangler.jsonc`, que sirve el directorio `dist`)
 
-Antes de conectar el dominio propio, revisar que los registros de correo de Zoho (MX, SPF, DKIM, DMARC y TXT) permanezcan intactos.
+El dominio `gustech.com.ar` está conectado como dominio personalizado del Worker `gustech` (Cloudflare crea y administra su registro DNS).
+
+**Correo:** el correo corporativo funciona con Zoho. No eliminar, reemplazar ni modificar los registros MX, SPF, DKIM, DMARC ni TXT de Zoho al cambiar la configuración del sitio.
 
 ## Contenido pendiente de definir
 
