@@ -1,0 +1,40 @@
+---
+import { problems } from '../data/site';
+---
+
+<section class="section section-alt" id="problemas" aria-labelledby="problemas-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Problemas que resolvemos</p>
+      <h2 id="problemas-title">Si te pasa algo de esto, podemos ayudarte</h2>
+      <p class="lead">
+        Son situaciones frecuentes en las empresas. Te acompañamos según el alcance que acordemos.
+      </p>
+    </div>
+
+    <div class="card-grid">
+      {
+        problems.map((problem) => (
+          <article class="card problem-card">
+            <h3>{problem.title}</h3>
+            <p>{problem.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .problem-card {
+    border-left: 3px solid var(--color-cyan);
+  }
+  .problem-card h3 {
+    font-size: 1.125rem;
+  }
+  .problem-card p {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

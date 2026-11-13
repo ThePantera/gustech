@@ -17,8 +17,17 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(contact.subjec
         </p>
       </div>
       <div class="contact-action">
-        <a class="btn btn-primary" href={mailto}>Solicitar asesoramiento por correo</a>
-        <p class="contact-note">Este botón abre tu programa de correo con un mensaje precompletado.</p>
+        <div class="contact-buttons">
+          <a class="btn btn-primary" href={mailto}>Solicitar asesoramiento por correo</a>
+          <button type="button" class="btn btn-on-dark copy-email" data-email={site.email}>
+            Copiar correo
+          </button>
+        </div>
+        <p class="visually-hidden" role="status" aria-live="polite" id="copy-status"></p>
+        <p class="contact-note">
+          El primer botón abre tu programa de correo con un mensaje precompletado. Si no usás uno, copiá la
+          dirección y escribinos desde tu correo web.
+        </p>
         <p class="contact-phone">
           También podés llamar al <a href={site.phone.href}>{site.phone.display}</a>.
         </p>
@@ -27,7 +36,65 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(contact.subjec
   </div>
 </section>
 
+<script>
+  // Copia la dirección de correo al portapapeles (para quien no usa un programa de correo).
+  const button = document.querySelector<HTMLButtonElement>('.copy-email');
+  const status = document.querySelector<HTMLElement>('#copy-status');
+
+  async function copyText(text: string): Promise<boolean> {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      // Respaldo para navegadores o contextos sin la API del portapapeles.
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      const ok = document.execCommand('copy');
+      area.remove();
+      return ok;
+    }
+  }
+
+  if (button) {
+    const original = button.textContent?.trim() ?? 'Copiar correo';
+    let timer: number | undefined;
+
+    button.addEventListener('click', async () => {
+      const ok = await copyText(button.dataset.email ?? '');
+      button.textContent = ok ? 'Correo copiado' : 'No se pudo copiar';
+      if (status) {
+        status.textContent = ok
+          ? 'Correo copiado al portapapeles.'
+          : 'No se pudo copiar. Seleccioná la dirección y copiala manualmente.';
+      }
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        button.textContent = original;
+      }, 2500);
+    });
+  }
+</script>
+
 <style>
+  /* Sin JavaScript el botón de copiar no funcionaría: queda oculto. */
+  .copy-email {
+    display: none;
+  }
+  :global(html.js) .copy-email {
+    display: inline-flex;
+  }
+
+  .contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
   .contact-card {
     display: grid;
     gap: var(--space-4);
@@ -65,8 +132,13 @@ const mailto = `mailto:${site.email}?subject=${encodeURIComponent(contact.subjec
   }
 
   .contact-phone {
-    margin: var(--space-3) 0 0;
+    margin: var(--space-2) 0 0;
     font-size: var(--text-sm);
+  }
+  /* Área táctil de al menos 44 px de alto. */
+  .contact-phone a {
+    display: inline-block;
+    padding-block: 0.65rem;
   }
 
   @media (min-width: 56rem) {

@@ -145,6 +145,62 @@ export const about = {
   text: 'En GUSTECH IT Solutions trabajamos para acercar soluciones tecnológicas prácticas a las empresas. Nuestro enfoque combina soporte a usuarios, acompañamiento en infraestructura y coordinación operativa, con una atención clara, ordenada y orientada a las necesidades de cada organización.',
 } as const;
 
+// Situaciones frecuentes en empresas. Cada respuesta se apoya en los servicios descritos
+// arriba: no agregar capacidades que no estén confirmadas.
+export const problems = [
+  {
+    title: 'Las computadoras o los programas fallan y nadie los atiende',
+    text: 'Asistencia remota a usuarios, diagnóstico de incidentes y seguimiento de cada solicitud hasta su resolución.',
+  },
+  {
+    title: 'La red o internet se cae y el trabajo se frena',
+    text: 'Revisión de redes y conectividad, y coordinación con los proveedores cuando el origen del problema está fuera de la empresa.',
+  },
+  {
+    title: 'La empresa no tiene un responsable de IT',
+    text: 'Acompañamiento tecnológico flexible, sin necesidad de armar un departamento propio.',
+  },
+  {
+    title: 'Los equipos y las cuentas están desordenados o poco protegidos',
+    text: 'Documentación de activos tecnológicos, revisión de accesos y permisos, y orientación para proteger equipos y cuentas.',
+  },
+  {
+    title: 'Los mismos problemas se repiten una y otra vez',
+    text: 'Mantenimiento preventivo, recomendaciones para reducir incidentes y registro de las tareas realizadas.',
+  },
+  {
+    title: 'Una aplicación o un proveedor falla y no se sabe a quién reclamar',
+    text: 'Análisis inicial, clasificación del incidente y coordinación con equipos o proveedores hasta su derivación o resolución.',
+  },
+] as const;
+
+export const faq = [
+  {
+    q: '¿El soporte es remoto o presencial?',
+    a: 'Brindamos soporte remoto y asistencia presencial previamente acordada, según la ubicación y la disponibilidad.',
+  },
+  {
+    q: '¿Cómo se contratan los servicios?',
+    a: 'Trabajamos por abono mensual o con servicios puntuales, según lo que necesite cada empresa. Siempre se define después de un relevamiento y una propuesta.',
+  },
+  {
+    q: '¿Cuánto cuesta?',
+    a: 'No publicamos precios cerrados porque dependen del alcance: cantidad de usuarios, equipos y servicios. Escribinos contando tu necesidad y te preparamos una propuesta.',
+  },
+  {
+    q: '¿Cómo empiezo?',
+    a: 'Escribinos por correo con una breve descripción de tu empresa y de lo que necesitás. A partir de ahí coordinamos un relevamiento para conocer tus usuarios, tu infraestructura y tus prioridades.',
+  },
+  {
+    q: '¿Trabajan con empresas de cualquier tamaño?',
+    a: 'Sí. Adaptamos el alcance a pequeñas, medianas y grandes empresas, desde asistencia flexible hasta apoyo operativo con escalamiento a equipos internos y proveedores.',
+  },
+  {
+    q: '¿Qué pasa si el problema es de una aplicación o de un proveedor externo?',
+    a: 'Hacemos un análisis inicial, clasificamos el incidente y coordinamos con los equipos o proveedores correspondientes, según el alcance contratado.',
+  },
+] as const;
+
 export const contact = {
   subject: 'Consulta desde gustech.com.ar',
   body: 'Hola, quiero consultar sobre servicios IT para mi empresa.\n\nEmpresa:\nCantidad aproximada de usuarios o equipos:\nNecesidad:\n',

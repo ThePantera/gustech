@@ -1,0 +1,75 @@
+---
+import { faq } from '../data/site';
+---
+
+<section class="section" id="preguntas" aria-labelledby="preguntas-title">
+  <div class="container faq">
+    <div class="section-head">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2 id="preguntas-title">Lo que más nos preguntan</h2>
+    </div>
+
+    <div class="faq-list">
+      {
+        faq.map((item) => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    max-width: 52rem;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .faq-item {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  summary {
+    position: relative;
+    padding: 1rem 3rem 1rem 1.25rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    cursor: pointer;
+    list-style: none;
+    border-radius: var(--radius-lg);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Indicador + / − sin imágenes */
+  summary::after {
+    content: '+';
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-primary);
+  }
+  .faq-item[open] summary::after {
+    content: '−';
+  }
+
+  .faq-item p {
+    margin: 0;
+    padding: 0 1.25rem 1.25rem;
+    color: var(--color-text-muted);
+  }
+</style>
