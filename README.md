@@ -42,6 +42,8 @@ El sitio se publica como sitio estático en Cloudflare:
 
 El dominio `gustech.com.ar` está conectado como dominio personalizado del Worker `gustech` (Cloudflare crea y administra su registro DNS).
 
+**Analítica:** el sitio usa Cloudflare Web Analytics, que Cloudflare agrega en el dominio propio. No usa cookies ni recolecta datos personales. La política de seguridad (`public/_headers`) permite solo su script y su destino de envío.
+
 **Correo:** el correo corporativo funciona con Zoho. No eliminar, reemplazar ni modificar los registros MX, SPF, DKIM, DMARC ni TXT de Zoho al cambiar la configuración del sitio.
 
 ## Contenido pendiente de definir
