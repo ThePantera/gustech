@@ -98,26 +98,63 @@ export const solutions = [
   },
 ] as const;
 
+// Atención a demanda (por incidente): la puerta de entrada. Sin abonos obligatorios.
+// No se publican aquí precios, recargos ni tiempos de respuesta: no están confirmados.
+export const onDemand = {
+  lead: 'Pedí una atención puntual cuando la necesitás. Si más adelante querés evitar los problemas antes de que aparezcan, podemos armar un abono mensual de mantenimiento preventivo.',
+  levels: [
+    {
+      icon: 'headset',
+      title: 'Soporte remoto',
+      text: 'Resolvemos el problema a distancia, sin costo de traslado y, cuando es posible, en la misma sesión.',
+      examples: [
+        'PC lenta o fallas de Windows.',
+        'Limpieza de virus y malware.',
+        'Configuración de correos e impresoras en red.',
+        'Instalación de programas.',
+      ],
+    },
+    {
+      icon: 'wrench',
+      title: 'Visita técnica programada',
+      text: 'Vamos hasta donde está el problema, o retiramos el equipo para revisarlo en taller. Se coordina previamente y se acuerda el valor antes de ir.',
+      examples: [
+        'Fallas de hardware o equipos que no encienden.',
+        'Cambio de disco a SSD o ampliación de RAM.',
+        'Problemas de Wi-Fi o de cableado.',
+        'Retiro de equipos para llevarlos a taller.',
+      ],
+    },
+    {
+      icon: 'bolt',
+      title: 'Urgencias',
+      text: 'Para comercios, estudios u oficinas que no pueden operar. Atención prioritaria, también fuera de horario, según disponibilidad y con tarifa diferencial.',
+      examples: [
+        'Un comercio que no puede facturar.',
+        'Una oficina o un estudio sin internet.',
+        'Una PC o un servidor crítico caído.',
+      ],
+    },
+  ],
+} as const;
+
+// Cómo es una atención, paso a paso.
 export const workSteps = [
   {
-    title: 'Relevamiento',
-    text: 'Conocer tu situación, tus equipos, tu red y lo que necesitás resolver.',
+    title: 'Nos contás el problema',
+    text: 'Escribinos por correo con una descripción de lo que pasa. Una captura o una foto del error nos ayuda a entenderlo más rápido.',
   },
   {
-    title: 'Propuesta',
-    text: 'Definir el alcance, las prioridades y las condiciones del servicio.',
+    title: 'Definimos cómo resolverlo',
+    text: 'Vemos si se puede resolver a distancia o si hace falta una visita, y te informamos el valor antes de empezar.',
   },
   {
-    title: 'Puesta en marcha',
-    text: 'Acordar cómo nos comunicamos, quién es el responsable y cómo se trabaja.',
+    title: 'Lo resolvemos',
+    text: 'Solucionamos el problema y, de paso, revisamos si tenés copia de seguridad o el disco al límite, para dejártelo anotado.',
   },
   {
-    title: 'Atención y seguimiento',
-    text: 'Resolver solicitudes e incidentes según lo acordado.',
-  },
-  {
-    title: 'Revisión',
-    text: 'Evaluar necesidades y oportunidades de mejora.',
+    title: 'Cierre y seguimiento',
+    text: 'Te enviamos un resumen de lo que se hizo y, si querés, te proponemos la próxima mejora o un abono de mantenimiento preventivo.',
   },
 ] as const;
 
@@ -165,7 +202,15 @@ export const faq = [
   },
   {
     q: '¿Cómo se contratan los servicios?',
-    a: 'Podés pedir un servicio puntual, como reparar un equipo o configurar una red, o contratar un abono mensual de mantenimiento preventivo, según lo que necesites.',
+    a: 'Podés pedir una atención puntual, como reparar un equipo o configurar una red, sin abonos obligatorios. Si querés prevención, también ofrecemos un abono mensual de mantenimiento preventivo.',
+  },
+  {
+    q: '¿Qué pasa si tengo una urgencia?',
+    a: 'Escribinos describiendo el problema. Para comercios, estudios y oficinas que no pueden operar ofrecemos atención prioritaria, también fuera de horario, según disponibilidad y con tarifa diferencial.',
+  },
+  {
+    q: '¿Conviene reparar mi PC o comprar una nueva?',
+    a: 'Depende del estado del equipo. Antes de comprar una nueva, consultanos: en muchos casos una optimización, más memoria RAM o un cambio de disco a SSD alcanza para que funcione mucho mejor.',
   },
   {
     q: '¿Cuánto cuesta?',

@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+import { onDemand } from '../data/site';
+---
+
+<section class="section section-alt" id="a-demanda" aria-labelledby="demanda-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Atención a demanda</p>
+      <h2 id="demanda-title">Soporte cuando lo necesitás, sin abonos obligatorios</h2>
+      <p class="lead">{onDemand.lead}</p>
+    </div>
+
+    <div class="card-grid">
+      {
+        onDemand.levels.map((level) => (
+          <article class="card level-card">
+            <div class="level-icon">
+              <Icon name={level.icon} />
+            </div>
+            <h3>{level.title}</h3>
+            <p class="level-text">{level.text}</p>
+            <ul>
+              {level.examples.map((example) => (
+                <li>{example}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .level-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: var(--space-3);
+    border-radius: var(--radius);
+    background: rgb(6 182 212 / 0.12);
+    color: #0e7490;
+  }
+
+  .level-text {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  li::marker {
+    color: var(--color-cyan);
+  }
+</style>
