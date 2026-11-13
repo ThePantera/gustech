@@ -48,7 +48,7 @@ El dominio `gustech.com.ar` está conectado como dominio personalizado del Worke
 
 ## Contenido pendiente de definir
 
-- Logotipo definitivo (el actual es una propuesta tipográfica provisoria, en `src/components/Logo.astro`).
-- Tagline definitivo (provisorio en `src/data/site.ts`).
-- Servicios que estarán disponibles en el lanzamiento.
-- Imagen para compartir el sitio en redes (Open Graph).
+- Logotipo definitivo: el actual es un **prototipo** (`public/logo-g.webp`, usado en `src/components/Logo.astro`). Al reemplazarlo, actualizar también `public/favicon.png`, `public/apple-touch-icon.png` y `public/og-image.png`.
+- Razón social y CUIT: no se publican por ahora (se están gestionando con ARCA). Agregarlos al footer cuando estén disponibles.
+
+Ya definidos por el propietario: el tagline y los servicios del lanzamiento (ver `src/data/site.ts`).

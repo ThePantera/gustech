@@ -7,15 +7,24 @@ import { services } from '../data/site';
   <div class="container">
     <div class="section-head">
       <p class="eyebrow">Servicios IT</p>
-      <h2 id="servicios-title">Áreas de servicio para el día a día de tu empresa</h2>
+      <h2 id="servicios-title">Cuatro áreas para que tu tecnología funcione</h2>
       <p class="lead">
-        Un acompañamiento ordenado para usuarios, equipos e infraestructura. El alcance de cada servicio
-        se define según tus necesidades en una propuesta técnica.
+        Desde reparar un equipo hasta ordenar la operación de tu negocio. El alcance de cada trabajo se
+        acuerda según lo que necesites.
       </p>
     </div>
 
-    <div class="card-grid">
+    <div class="card-grid services-grid">
       {services.map((service) => <ServiceCard {...service} />)}
     </div>
   </div>
 </section>
+
+<style>
+  /* Cuatro tarjetas: 2 × 2 en pantallas anchas, en lugar de 3 + 1. */
+  @media (min-width: 48rem) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

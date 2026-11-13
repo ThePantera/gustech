@@ -5,11 +5,11 @@ import { solutions } from '../data/site';
 <section class="section section-alt" id="soluciones" aria-labelledby="soluciones-title">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Soluciones para empresas</p>
-      <h2 id="soluciones-title">Una propuesta que se adapta al tamaño de tu organización</h2>
+      <p class="eyebrow">Para quién trabajamos</p>
+      <h2 id="soluciones-title">Una propuesta que se adapta a cada cliente</h2>
     </div>
 
-    <div class="card-grid">
+    <div class="card-grid solutions-grid">
       {
         solutions.map((solution) => (
           <article class="card solution-card">
@@ -27,6 +27,13 @@ import { solutions } from '../data/site';
 </section>
 
 <style>
+  /* Cuatro tarjetas: 2 × 2 en pantallas anchas, en lugar de 3 + 1. */
+  @media (min-width: 48rem) {
+    .solutions-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   .solution-card {
     border-top: 3px solid var(--color-primary);
   }
