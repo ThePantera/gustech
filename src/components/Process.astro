@@ -59,6 +59,35 @@ import { workSteps } from '../data/site';
     font-weight: 700;
   }
 
+  /* Línea que une los pasos (4 columnas): del centro del primer círculo al del último. */
+  @media (min-width: 60rem) {
+    .steps {
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: calc(1.25rem - 1px);
+      left: 1.25rem;
+      width: calc(75% + 1.125rem);
+      height: 2px;
+      background: linear-gradient(90deg, var(--color-cyan), var(--color-primary));
+      border-radius: 2px;
+      transform-origin: left;
+    }
+  }
+
+  /* Con movimiento permitido, la línea se "dibuja" cuando los pasos entran en pantalla. */
+  @media (min-width: 60rem) and (prefers-reduced-motion: no-preference) {
+    :global(html.reveal-ready) .steps::before {
+      transform: scaleX(0);
+      transition: transform 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.25s;
+    }
+    :global(html.reveal-ready) .steps.is-drawn::before {
+      transform: scaleX(1);
+    }
+  }
+
   .step h3 {
     font-size: 1.125rem;
     margin-bottom: var(--space-2);

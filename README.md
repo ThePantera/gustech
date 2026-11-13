@@ -33,6 +33,15 @@ La especificación completa está en [GUSTECH_ESPECIFICACION_TECNICA.md](GUSTECH
 └── astro.config.mjs
 ```
 
+## Animaciones e interacciones
+
+El sitio tiene movimiento sutil, pensado como mejora progresiva (sin JavaScript todo se ve igual):
+
+- **Hero:** red animada (anillos, nodos y "paquetes de datos"), solo con CSS en `src/components/Hero.astro`.
+- **Al hacer scroll:** los bloques aparecen en cascada, la línea del proceso se dibuja, el header proyecta sombra, hay una barra de progreso, el menú marca la sección activa y aparece un botón "volver arriba". Todo está en `src/scripts/dynamic.ts` (sin librerías).
+- **Efectos al pasar el mouse** en tarjetas y botones, en `src/styles/global.css`.
+- **Accesibilidad:** todo el movimiento está dentro de `prefers-reduced-motion: no-preference`. Quien pidió reducir el movimiento ve el sitio estático. Solo se animan `transform` y `opacity`.
+
 ## Despliegue en Cloudflare
 
 El sitio se publica como sitio estático en Cloudflare:
