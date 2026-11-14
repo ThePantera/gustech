@@ -55,6 +55,20 @@ El dominio `gustech.com.ar` está conectado como dominio personalizado del Worke
 
 **Correo:** el correo corporativo funciona con Zoho. No eliminar, reemplazar ni modificar los registros MX, SPF, DKIM, DMARC ni TXT de Zoho al cambiar la configuración del sitio.
 
+## Formulario de contacto
+
+El sitio sigue siendo estático, pero `wrangler.jsonc` suma un Worker (`src/worker/`) que atiende solo `POST /api/contacto` (`assets.run_worker_first: ["/api/*"]`). Valida los datos en el servidor, verifica Cloudflare Turnstile, descarta spam con un campo trampa (honeypot) y manda el mensaje a `contacto@gustech.com.ar` por la API de **Resend**, desde un subdominio dedicado (`envio.gustech.com.ar`). Así no se toca ningún registro MX/SPF/DKIM/DMARC/TXT de Zoho ni se activa Email Routing. Si el envío falla, la persona ve el correo y el botón de WhatsApp.
+
+- **Formulario:** `src/components/ContactForm.astro` (funciona sin JS como formulario normal, pero la verificación anti-robots requiere JS: sin JS se muestra el correo y WhatsApp). Solo nombre, un medio de contacto (correo o teléfono) y "qué necesitás" son obligatorios.
+- **Clave pública de Turnstile:** variable de build `PUBLIC_TURNSTILE_SITE_KEY` (en Cloudflare, variables del build). Sin ella se usa la clave de prueba de Cloudflare, que siempre aprueba.
+- **Secretos (nunca en el repo):** `npx wrangler secret put TURNSTILE_SECRET` y `npx wrangler secret put RESEND_API_KEY`. Variables no secretas (`MAIL_TO`, `MAIL_FROM`, `SITE_ORIGIN`) en `wrangler.jsonc`.
+- **Probar en local:** crear `.dev.vars` (ignorado por git) con `TURNSTILE_SECRET=1x0000000000000000000000000000000AA` y `RESEND_API_KEY=...`; luego `npm run dev:worker` (hace build y corre `wrangler dev`). Con la clave de prueba de Turnstile (`1x00000000000000000000AA`) el widget siempre pasa.
+- **Resend:** verificar el dominio `envio.gustech.com.ar` (solo agrega registros DNS en ese subdominio) y crear una API key con permiso solo de envío.
+
+### CSP sin `unsafe-inline` en scripts
+
+`public/_headers` tiene el marcador `__SCRIPT_HASHES__` en `script-src`. Después de cada `npm run build`, el script `postbuild` (`node scripts/csp-hashes.mjs`) lee `dist/*.html`, calcula el sha256 de cada script inline y reemplaza el marcador en `dist/_headers`. Se recalcula en cada build; no hay que mantener hashes a mano. No quitar el marcador de `public/_headers`.
+
 ## Contenido y SEO
 
 - **Un solo lugar para editar:** `src/data/site.ts` (textos, WhatsApp, cobertura, FAQ). El enlace de WhatsApp se arma con `whatsappUrl()`; al tener la línea dedicada, cambiar solo `site.whatsapp.display` y `site.whatsapp.number`.
