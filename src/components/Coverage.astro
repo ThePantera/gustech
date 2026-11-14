@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+import { coverage } from '../data/site';
+---
+
+<section class="section" id="cobertura" aria-labelledby="cobertura-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Dónde trabajamos</p>
+      <h2 id="cobertura-title">{coverage.title}</h2>
+      <p class="lead">{coverage.lead}</p>
+    </div>
+
+    <div class="card-grid coverage-grid">
+      {
+        coverage.modes.map((mode) => (
+          <article class="card mode-card">
+            <div class="mode-icon">
+              <Icon name={mode.icon} />
+            </div>
+            <h3>{mode.title}</h3>
+            <p class="mode-area">{mode.area}</p>
+            <p class="mode-text">{mode.text}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="note">{coverage.note}</p>
+  </div>
+</section>
+
+<style>
+  @media (min-width: 48rem) {
+    .coverage-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .mode-card {
+    border-top: 3px solid var(--color-cyan);
+  }
+
+  .mode-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: var(--space-3);
+    border-radius: var(--radius);
+    background: rgb(6 182 212 / 0.12);
+    color: #0e7490;
+  }
+
+  .mode-area {
+    margin: 0 0 var(--space-2);
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .mode-text {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+</style>
