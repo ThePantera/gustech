@@ -65,6 +65,18 @@ El sitio sigue siendo estático, pero `wrangler.jsonc` suma un Worker (`src/work
 - **Probar en local:** crear `.dev.vars` (ignorado por git) con `TURNSTILE_SECRET=1x0000000000000000000000000000000AA` y `RESEND_API_KEY=...`; luego `npm run dev:worker` (hace build y corre `wrangler dev`). Con la clave de prueba de Turnstile (`1x00000000000000000000AA`) el widget siempre pasa.
 - **Resend:** verificar el dominio `envio.gustech.com.ar` (solo agrega registros DNS en ese subdominio) y crear una API key con permiso solo de envío.
 
+### Protección anti-spam
+
+Además de Turnstile y el campo trampa, el Worker (`src/worker/guard.ts`) aplica, en este orden y solo después de validar y de pasar Turnstile:
+
+1. **Límite por persona:** 3 consultas por hora por IP (`LIMIT_PER_IP_HOUR`). Respuesta 429 con aviso y WhatsApp.
+2. **Tope diario:** 40 consultas por día en total (`DAILY_CAP`), para no agotar el cupo gratis de Resend (100/día). Respuesta 503 con aviso y WhatsApp.
+3. **Correo:** se verifica el *dominio* (DNS por DoH de Cloudflare: debe existir y poder recibir mail) y se rechazan dominios descartables (lista `DISPOSABLE`). Si el servicio DNS no responde, se deja pasar. No se verifica el buzón.
+4. **Contenido:** más de 2 enlaces o palabras típicas de spam no se rechazan: la consulta llega con el asunto `[REVISAR] Consulta web: …` y un aviso rojo arriba del cuerpo.
+5. **Regla en Zoho (manual):** filtro por asunto que contiene `[REVISAR]` → carpeta aparte.
+
+Los contadores viven en el KV `RATE` (binding en `wrangler.jsonc`). Es *best effort*: si KV falla o no existe, no se bloquea a nadie. Los contadores solo suman consultas efectivamente enviadas. Para ajustar los límites, editar las constantes de `guard.ts`.
+
 ### CSP sin `unsafe-inline` en scripts
 
 `public/_headers` tiene el marcador `__SCRIPT_HASHES__` en `script-src`. Después de cada `npm run build`, el script `postbuild` (`node scripts/csp-hashes.mjs`) lee `dist/*.html`, calcula el sha256 de cada script inline y reemplaza el marcador en `dist/_headers`. Se recalcula en cada build; no hay que mantener hashes a mano. No quitar el marcador de `public/_headers`.

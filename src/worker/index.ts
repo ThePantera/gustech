@@ -2,9 +2,22 @@
 // (wrangler.jsonc: assets.run_worker_first = ["/api/*"]).
 import { buildMail } from './mail';
 import { validate, type Errors } from './validate';
+import {
+  DAILY_CAP,
+  LIMIT_PER_IP_HOUR,
+  bump,
+  checkEmail,
+  count,
+  dayKey,
+  ipKey,
+  spamSignals,
+  type Counter,
+} from './guard';
 
 export interface Env {
   ASSETS: Fetcher;
+  /** KV con los contadores anti-spam (opcional: sin él no se aplican los límites). */
+  RATE?: Counter;
   /** Secret: clave secreta de Cloudflare Turnstile. */
   TURNSTILE_SECRET: string;
   /** Secret: API key de Resend (solo permiso de envío). */
@@ -119,7 +132,41 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
     return fail('captcha', 'La verificación anti-robots falló o venció. Probá de nuevo.', 403);
   }
 
-  const mail = buildMail(v.data);
+  // Límites: por persona (IP) y diario total. Se cuentan solo las consultas que llegan a enviarse.
+  const ip = request.headers.get('CF-Connecting-IP');
+  if (ip && (await count(env.RATE, ipKey(ip))) >= LIMIT_PER_IP_HOUR) {
+    return fail(
+      'rate',
+      'Ya recibimos varias consultas tuyas en poco tiempo y las estamos viendo. Si es urgente, escribinos por WhatsApp.',
+      429,
+    );
+  }
+  if ((await count(env.RATE, dayKey())) >= DAILY_CAP) {
+    return fail(
+      'busy',
+      'Hoy recibimos muchas consultas y el formulario está pausado un rato. Escribinos por WhatsApp o por correo y te respondemos igual.',
+      503,
+    );
+  }
+
+  // Correo con dominio real y no descartable (el dominio, no el buzón). Ante dudas, se deja pasar.
+  if (v.data.email) {
+    const c = await checkEmail(v.data.email);
+    if (c === 'disposable') {
+      return fail('validation', 'Revisá los datos marcados.', 422, {
+        email: 'Ese correo es temporal y no nos sirve para responderte. Usá tu correo habitual o dejá un teléfono.',
+      });
+    }
+    if (c === 'nodomain') {
+      return fail('validation', 'Revisá los datos marcados.', 422, {
+        email: 'No encontramos ese dominio de correo. Revisá que esté bien escrito (por ejemplo: nombre@gmail.com) o dejá solo un teléfono.',
+      });
+    }
+  }
+
+  // Lo dudoso no se descarta: llega marcado con "[REVISAR]" para revisarlo a mano.
+  const flags = spamSignals(v.data);
+  const mail = buildMail(v.data, flags);
   const payload: Record<string, unknown> = {
     from: env.MAIL_FROM,
     to: [env.MAIL_TO],
@@ -143,6 +190,10 @@ async function handleContact(request: Request, env: Env): Promise<Response> {
     console.error('resend_exception', String(e));
     return fail('send', 'No pudimos enviar tu consulta en este momento.', 502);
   }
+
+  // Consulta enviada: se suma a los contadores (sin bloquear la respuesta al visitante).
+  if (ip) await bump(env.RATE, ipKey(ip), 7200);
+  await bump(env.RATE, dayKey(), 172800);
 
   return wantsJson
     ? json({ ok: true })

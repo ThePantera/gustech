@@ -13,6 +13,8 @@
     // El Worker solo se ejecuta para /api/*: el resto lo sirve Cloudflare directo.
     "run_worker_first": ["/api/*"]
   },
+  // Contadores anti-spam (límite por persona y tope diario). Ver src/worker/guard.ts.
+  "kv_namespaces": [{ "binding": "RATE", "id": "35bf6ffabb9d434090763264f6da376e" }],
   // Variables NO secretas. Los secretos (TURNSTILE_SECRET, RESEND_API_KEY) se cargan con
   // `wrangler secret put` o en el panel de Cloudflare; nunca van en el repo.
   "vars": {
