@@ -1,0 +1,498 @@
+---
+import { site } from '../data/site';
+
+// Clave PÚBLICA de Turnstile (se define al compilar con PUBLIC_TURNSTILE_SITE_KEY). Sin variable
+// se usa la clave de prueba de Cloudflare (siempre pasa): solo sirve para desarrollo.
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
+const waNumber = site.whatsapp.number;
+
+const topics = [
+  ['no-se', 'No sé / no estoy seguro'],
+  ['soporte', 'Soporte técnico (PC, notebook, impresora, programas)'],
+  ['redes', 'Redes, Wi-Fi e internet'],
+  ['respaldo', 'Copias de seguridad y datos'],
+  ['seguridad', 'Virus y seguridad'],
+  ['continuidad', 'Gestión operativa y continuidad'],
+  ['automatizacion', 'Automatización de tareas'],
+  ['compra', 'Asesoramiento para comprar equipos'],
+  ['otro', 'Otro'],
+] as const;
+const urgency = [
+  ['no-urgente', 'No es urgente'],
+  ['hoy', 'Necesito ayuda hoy'],
+  ['sin-trabajar', 'Estoy sin poder trabajar'],
+] as const;
+const modes = [
+  ['no-se', 'No sé / lo definimos juntos'],
+  ['remoto', 'Remoto'],
+  ['presencial', 'Presencial'],
+] as const;
+const sizes = [
+  ['personal', 'Uso personal / 1 persona'],
+  ['2-5', '2 a 5 equipos o personas'],
+  ['6-20', '6 a 20'],
+  ['21-50', '21 a 50'],
+  ['51+', 'Más de 50'],
+] as const;
+---
+
+<div class="cf" data-sitekey={siteKey} data-email={site.email} data-wa={waNumber}>
+  <div class="cf-success" id="cf-success" tabindex="-1" hidden>
+    <h3>¡Gracias! Recibimos tu consulta</h3>
+    <p>Te respondemos a la brevedad por el medio que nos dejaste.</p>
+    <p>Si es urgente, escribinos por <a href={`https://wa.me/${waNumber}`}>WhatsApp</a>.</p>
+  </div>
+
+  <form id="cf-form" method="post" action="/api/contacto" novalidate>
+    <p class="cf-intro"><strong>Consulta gratuita, sin compromiso.</strong> Los campos con * son obligatorios; el resto es opcional. Si no sabés qué elegir, dejalo como está.</p>
+
+    <div class="cf-alert" id="cf-summary" role="alert" tabindex="-1" hidden></div>
+
+    <div class="cf-field">
+      <label for="cf-name">Nombre <span aria-hidden="true">*</span><span class="visually-hidden">(obligatorio)</span></label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" required aria-describedby="cf-name-err" />
+      <p class="cf-err" id="cf-name-err" aria-live="polite"></p>
+    </div>
+
+    <fieldset class="cf-group" aria-describedby="cf-contact-help cf-contact-err">
+      <legend>¿Cómo te respondemos? <span aria-hidden="true">*</span></legend>
+      <p class="cf-help" id="cf-contact-help">Con completar uno solo alcanza: correo o teléfono.</p>
+      <p class="cf-err" id="cf-contact-err" aria-live="polite"></p>
+      <div class="cf-row">
+        <div class="cf-field">
+          <label for="cf-email">Correo</label>
+          <input id="cf-email" name="email" type="email" autocomplete="email" maxlength="120" inputmode="email" aria-describedby="cf-email-err" />
+          <p class="cf-err" id="cf-email-err" aria-live="polite"></p>
+        </div>
+        <div class="cf-field">
+          <label for="cf-phone">Teléfono o WhatsApp</label>
+          <input id="cf-phone" name="phone" type="tel" autocomplete="tel" maxlength="30" inputmode="tel" aria-describedby="cf-phone-err" />
+          <p class="cf-err" id="cf-phone-err" aria-live="polite"></p>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="cf-field">
+      <label for="cf-message">¿Qué necesitás? <span aria-hidden="true">*</span><span class="visually-hidden">(obligatorio)</span></label>
+      <textarea id="cf-message" name="message" rows="5" maxlength="3000" required aria-describedby="cf-message-help cf-message-err"></textarea>
+      <p class="cf-help" id="cf-message-help">Contanos con tus palabras qué te pasa o qué querés lograr. No hace falta que sea técnico.</p>
+      <p class="cf-err" id="cf-message-err" aria-live="polite"></p>
+    </div>
+
+    <details class="cf-more">
+      <summary>Más datos (opcional, nos ayudan a responderte mejor)</summary>
+      <div class="cf-more-body">
+        <div class="cf-field">
+          <label for="cf-company">Empresa o estudio</label>
+          <input id="cf-company" name="company" type="text" autocomplete="organization" maxlength="120" aria-describedby="cf-company-help" />
+          <p class="cf-help" id="cf-company-help">Si es para uso personal, dejalo vacío.</p>
+        </div>
+        <div class="cf-row">
+          <div class="cf-field">
+            <label for="cf-topic">Tipo de consulta</label>
+            <select id="cf-topic" name="topic">
+              {topics.map(([v, l]) => <option value={v} selected={v === 'no-se'}>{l}</option>)}
+            </select>
+          </div>
+          <div class="cf-field">
+            <label for="cf-urgency">Urgencia</label>
+            <select id="cf-urgency" name="urgency">
+              {urgency.map(([v, l]) => <option value={v} selected={v === 'no-urgente'}>{l}</option>)}
+            </select>
+          </div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-field">
+            <label for="cf-mode">Modalidad preferida</label>
+            <select id="cf-mode" name="mode" aria-describedby="cf-mode-help">
+              {modes.map(([v, l]) => <option value={v} selected={v === 'no-se'}>{l}</option>)}
+            </select>
+            <p class="cf-help" id="cf-mode-help">Remoto en toda Argentina; presencial en CABA y AMBA.</p>
+          </div>
+          <div class="cf-field">
+            <label for="cf-size">Cantidad de equipos o personas</label>
+            <select id="cf-size" name="size">
+              <option value="" selected>No sé / prefiero no indicarlo</option>
+              {sizes.map(([v, l]) => <option value={v}>{l}</option>)}
+            </select>
+          </div>
+        </div>
+        <div class="cf-field">
+          <label for="cf-zone">Zona o localidad</label>
+          <input id="cf-zone" name="zone" type="text" autocomplete="address-level2" maxlength="100" aria-describedby="cf-zone-help" />
+          <p class="cf-help" id="cf-zone-help">Sirve para coordinar visitas presenciales.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- Honeypot: las personas no lo ven ni lo usan. -->
+    <div class="cf-hp" aria-hidden="true">
+      <label for="cf-hp">No completar este campo</label>
+      <input id="cf-hp" name="sitio_web" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="cf-turnstile" id="cf-turnstile"></div>
+
+    <button type="submit" class="btn btn-primary cf-submit" id="cf-submit">Enviar consulta</button>
+    <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
+
+    <p class="cf-privacy">
+      Usamos estos datos solo para responder tu consulta; no los compartimos ni los usamos para publicidad. La
+      verificación anti-robots la hace Cloudflare Turnstile.
+    </p>
+    <noscript>
+      <p class="cf-noscript">
+        La verificación anti-robots necesita JavaScript. Si lo tenés desactivado, escribinos a
+        <a href={`mailto:${site.email}`}>{site.email}</a> o por <a href={`https://wa.me/${waNumber}`}>WhatsApp</a>.
+      </p>
+    </noscript>
+  </form>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.cf');
+  const form = document.querySelector<HTMLFormElement>('#cf-form');
+
+  if (root && form) {
+    const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+    const summary = $('cf-summary');
+    const status = $('cf-status');
+    const submit = $<HTMLButtonElement>('cf-submit');
+    const success = $('cf-success');
+    const siteKey = root.dataset.sitekey ?? '';
+    const email = root.dataset.email ?? '';
+    const wa = root.dataset.wa ?? '';
+
+    // ---- Turnstile (se carga recién cuando la persona empieza a completar el formulario) ----
+    type TS = { render: (el: HTMLElement, o: Record<string, unknown>) => string; reset: (id?: string) => void };
+    let widgetId: string | undefined;
+    let token = '';
+    let waiting: ((t: string) => void) | null = null;
+    let loading = false;
+
+    function loadTurnstile() {
+      if (loading) return;
+      loading = true;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      s.async = true;
+      s.onload = () => {
+        const ts = (window as unknown as { turnstile: TS }).turnstile;
+        widgetId = ts.render($('cf-turnstile'), {
+          sitekey: siteKey,
+          appearance: 'interaction-only', // invisible salvo que Cloudflare necesite una verificación
+          language: 'es',
+          callback: (t: string) => {
+            token = t;
+            waiting?.(t);
+            waiting = null;
+          },
+          'expired-callback': () => {
+            token = '';
+          },
+          'error-callback': () => {
+            token = '';
+          },
+        });
+      };
+      document.head.appendChild(s);
+    }
+    form.addEventListener('focusin', loadTurnstile, { once: true });
+    form.addEventListener('pointerdown', loadTurnstile, { once: true });
+
+    function getToken(): Promise<string> {
+      loadTurnstile();
+      if (token) return Promise.resolve(token);
+      return new Promise((resolve) => {
+        waiting = resolve;
+        window.setTimeout(() => {
+          if (waiting === resolve) {
+            waiting = null;
+            resolve('');
+          }
+        }, 15000);
+      });
+    }
+
+    // ---- Validación en el navegador (la definitiva es la del servidor) ----
+    const field = (name: string) => form!.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+    const errEl: Record<string, HTMLElement> = {
+      name: $('cf-name-err'),
+      contact: $('cf-contact-err'),
+      email: $('cf-email-err'),
+      phone: $('cf-phone-err'),
+      message: $('cf-message-err'),
+    };
+    const inputFor: Record<string, string> = { name: 'name', contact: 'email', email: 'email', phone: 'phone', message: 'message' };
+
+    function clearErrors() {
+      Object.values(errEl).forEach((e) => (e.textContent = ''));
+      form!.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+      summary.hidden = true;
+      summary.textContent = '';
+    }
+
+    function showErrors(errors: Record<string, string>) {
+      const keys = Object.keys(errors).filter((k) => errEl[k]);
+      for (const k of keys) {
+        errEl[k].textContent = errors[k];
+        const el = field(inputFor[k]);
+        el?.setAttribute('aria-invalid', 'true');
+        if (k === 'contact') field('phone')?.setAttribute('aria-invalid', 'true');
+      }
+      if (!keys.length) return;
+      summary.hidden = false;
+      summary.textContent =
+        keys.length === 1 ? 'Hay un dato para revisar.' : `Hay ${keys.length} datos para revisar.`;
+      field(inputFor[keys[0]])?.focus();
+    }
+
+    function localValidate(): Record<string, string> {
+      const errors: Record<string, string> = {};
+      const v = (n: string) => field(n).value.trim();
+      if (!v('name')) errors.name = 'Decinos cómo te llamás.';
+      if (v('email') && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v('email'))) {
+        errors.email = 'Revisá el correo: parece que le falta algo (por ejemplo: nombre@ejemplo.com).';
+      }
+      const digits = v('phone').replace(/\D/g, '');
+      if (v('phone') && (digits.length < 8 || digits.length > 15 || /[^\d\s+()\-.]/.test(v('phone')))) {
+        errors.phone = 'Revisá el teléfono: usá solo números (por ejemplo: 11 2345-6789).';
+      }
+      if (!v('email') && !v('phone')) {
+        errors.contact = 'Dejanos un correo o un teléfono (con uno solo alcanza) para poder responderte.';
+      }
+      if (!v('message')) errors.message = 'Contanos con tus palabras qué necesitás. No hace falta que sea técnico.';
+      return errors;
+    }
+
+    function showSendFailure(msg: string) {
+      summary.hidden = false;
+      summary.replaceChildren();
+      const p = document.createElement('span');
+      p.textContent = msg + ' Podés escribirnos a ';
+      const a = document.createElement('a');
+      a.href = `mailto:${email}`;
+      a.textContent = email;
+      const mid = document.createTextNode(' o por ');
+      const w = document.createElement('a');
+      w.href = `https://wa.me/${wa}`;
+      w.textContent = 'WhatsApp';
+      summary.append(p, a, mid, w, document.createTextNode('.'));
+      summary.focus();
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearErrors();
+      const errors = localValidate();
+      if (Object.keys(errors).length) {
+        showErrors(errors);
+        return;
+      }
+
+      submit.disabled = true;
+      submit.setAttribute('aria-busy', 'true');
+      status.textContent = 'Enviando tu consulta…';
+
+      try {
+        const t = await getToken();
+        if (!t) {
+          showSendFailure('No pudimos completar la verificación anti-robots.');
+          return;
+        }
+        const body = new URLSearchParams();
+        new FormData(form).forEach((val, key) => {
+          if (typeof val === 'string') body.append(key, val);
+        });
+        body.set('cf-turnstile-response', t);
+
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { accept: 'application/json', 'content-type': 'application/x-www-form-urlencoded' },
+          body,
+        });
+        const data = (await res.json().catch(() => ({}))) as { ok?: boolean; code?: string; errors?: Record<string, string>; message?: string };
+
+        if (res.ok && data.ok) {
+          form.hidden = true;
+          success.hidden = false;
+          success.focus();
+          status.textContent = '';
+          return;
+        }
+        if (data.errors) {
+          showErrors(data.errors);
+        } else {
+          showSendFailure(data.message ?? 'No pudimos enviar tu consulta en este momento.');
+        }
+      } catch {
+        showSendFailure('No pudimos enviar tu consulta (parece un problema de conexión).');
+      } finally {
+        // El token es de un solo uso: se pide uno nuevo para el próximo intento.
+        token = '';
+        if (widgetId !== undefined) (window as unknown as { turnstile: TS }).turnstile.reset(widgetId);
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+        if (!success.hidden) status.textContent = '';
+        else if (status.textContent === 'Enviando tu consulta…') status.textContent = '';
+      }
+    });
+  }
+</script>
+
+<style>
+  .cf {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+  .cf-intro {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-sm);
+  }
+  .cf-field {
+    margin-bottom: var(--space-3);
+  }
+  .cf label,
+  .cf legend {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--color-navy);
+  }
+  .cf input,
+  .cf select,
+  .cf textarea {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.6rem 0.75rem;
+    font: inherit;
+    font-size: 1rem; /* 16 px: evita el zoom automático en iOS */
+    color: var(--color-text);
+    background: #fff;
+    border: 1.5px solid #94a3b8;
+    border-radius: var(--radius);
+  }
+  .cf textarea {
+    resize: vertical;
+  }
+  .cf input:focus-visible,
+  .cf select:focus-visible,
+  .cf textarea:focus-visible,
+  .cf summary:focus-visible,
+  .cf-success:focus-visible,
+  .cf-alert:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+  .cf [aria-invalid='true'] {
+    border-color: #b91c1c;
+    background: #fef2f2;
+  }
+  .cf-group {
+    border: 0;
+    padding: 0;
+    margin: 0 0 var(--space-3);
+    min-width: 0;
+  }
+  .cf-group legend {
+    padding: 0;
+  }
+  .cf-row {
+    display: grid;
+    gap: 0 var(--space-3);
+  }
+  .cf-help {
+    margin: 0.3rem 0 0;
+    font-size: 0.875rem;
+    color: #475569;
+  }
+  .cf-group > .cf-help {
+    margin: 0 0 0.5rem;
+  }
+  .cf-err {
+    margin: 0.3rem 0 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #b91c1c;
+  }
+  .cf-err:empty {
+    margin: 0;
+  }
+  .cf-alert {
+    margin-bottom: var(--space-3);
+    padding: 0.75rem 1rem;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: #7f1d1d;
+    background: #fef2f2;
+    border: 1.5px solid #b91c1c;
+    border-radius: var(--radius);
+  }
+  .cf-alert a {
+    color: #7f1d1d;
+  }
+  .cf-more {
+    margin-bottom: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0 0.75rem;
+  }
+  .cf-more summary {
+    cursor: pointer;
+    padding: 0.75rem 0;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--color-primary-dark);
+  }
+  .cf-more-body {
+    padding-bottom: 0.25rem;
+  }
+  /* Honeypot fuera de pantalla (no display:none, para no delatarlo). */
+  .cf-hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .cf-submit {
+    width: 100%;
+  }
+  .cf-submit:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+  .cf-status {
+    margin: 0.5rem 0 0;
+    min-height: 1.4em;
+    font-size: var(--text-sm);
+  }
+  .cf-privacy,
+  .cf-noscript {
+    margin: var(--space-2) 0 0;
+    font-size: 0.8125rem;
+    color: #475569;
+  }
+  .cf-success h3 {
+    margin: 0 0 var(--space-2);
+    color: var(--color-navy);
+  }
+  .cf-success p {
+    margin: 0 0 var(--space-2);
+  }
+  .cf a {
+    color: var(--color-primary-dark);
+  }
+
+  @media (min-width: 40rem) {
+    .cf {
+      padding: var(--space-5);
+    }
+    .cf-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
