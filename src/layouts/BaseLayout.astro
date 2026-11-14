@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { site } from '../data/site';
+import { site, services, faq } from '../data/site';
 
 interface Props {
   title?: string;
@@ -15,20 +15,73 @@ const { title = site.title, description = site.description, noindex = false } = 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
 // Imagen para compartir (1200x630). Debe ser una URL absoluta.
 const ogImage = new URL('/og-image.png', Astro.site ?? site.url).href;
-const ogImageAlt = `${site.name}: soporte y soluciones IT para empresas`;
+const ogImageAlt = site.ogImageAlt;
 
-// Datos estructurados: solo información confirmada (nombre, URL y correo).
-const organization = {
+// Datos estructurados (schema.org). Solo información confirmada: nombre, URL, correo, teléfono,
+// zona de cobertura, servicios y preguntas frecuentes. No hay dirección ni horarios: no se inventan.
+// Teléfono en formato internacional. Es un celular argentino (código 9 después del 54).
+const phoneIntl = `+549${site.phone.href.replace('tel:', '')}`;
+const siteUrl = `${site.url}/`;
+const businessId = `${siteUrl}#negocio`;
+const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: site.name,
-  url: `${site.url}/`,
-  contactPoint: {
-    '@type': 'ContactPoint',
-    contactType: 'customer support',
-    email: site.email,
-    availableLanguage: 'es',
-  },
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      '@id': businessId,
+      name: site.name,
+      url: siteUrl,
+      logo: new URL('/apple-touch-icon.png', siteUrl).href,
+      image: ogImage,
+      description: site.description,
+      email: site.email,
+      telephone: phoneIntl,
+      availableLanguage: 'es',
+      // Presencial: CABA y AMBA. Remoto: todo el país (el país incluye a las dos áreas anteriores).
+      areaServed: [
+        { '@type': 'AdministrativeArea', name: 'Ciudad Autónoma de Buenos Aires' },
+        { '@type': 'AdministrativeArea', name: 'Área Metropolitana de Buenos Aires (AMBA)' },
+        { '@type': 'Country', name: 'Argentina' },
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        email: site.email,
+        telephone: phoneIntl,
+        availableLanguage: 'es',
+        areaServed: 'AR',
+      },
+      serviceType: services.map((service) => service.title),
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Servicios de GUSTECH IT Solutions',
+        itemListElement: services.map((service) => ({
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: service.title,
+            description: service.items.join(' '),
+          },
+        })),
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}#sitio`,
+      url: siteUrl,
+      name: site.name,
+      inLanguage: site.locale,
+      publisher: { '@id': businessId },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      })),
+    },
+  ],
 };
 ---
 
@@ -61,7 +114,7 @@ const organization = {
 
     {
       !noindex && (
-        <script type="application/ld+json" set:html={JSON.stringify(organization)} />
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
       )
     }
 
