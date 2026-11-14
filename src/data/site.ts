@@ -8,11 +8,58 @@ export const site = {
   email: 'contacto@gustech.com.ar',
   // Teléfono: contacto SECUNDARIO (el principal es el correo). Formato nacional.
   phone: { display: '11 2388-4030', href: 'tel:1123884030' },
+  // WhatsApp: provisorio, mismo número que el teléfono. Cuando haya una línea dedicada, cambiar
+  // SOLO `display` y `number` acá (formato internacional sin "+": 549 + código de área + número).
+  // Header, Footer y el formulario de contacto leen de este objeto.
+  whatsapp: {
+    display: '11 2388-4030',
+    number: '5491123884030',
+    message: 'Hola, quiero hacer una consulta gratuita sobre sus servicios IT.',
+  },
   locale: 'es-AR',
+  // Lema del footer. Lo definió el propietario y habla de "empresa": revisar si se prefiere un texto
+  // más amplio, ya que también se atiende a particulares, profesionales y comercios.
   tagline: 'Hagamos que la tecnología de tu empresa funcione cuando más importa.',
-  title: 'GUSTECH IT Solutions | Soporte y soluciones IT para empresas',
+  title: 'GUSTECH IT Solutions | Soporte técnico y soluciones IT',
   description:
-    'Soporte técnico, redes, copias de seguridad y automatización para empresas, comercios y profesionales de Argentina.',
+    'Soporte técnico, redes, copias de seguridad y automatización para particulares, profesionales, comercios y empresas. Remoto en todo el país y presencial en CABA y AMBA. Primera consulta gratis.',
+  // Texto alternativo de la imagen para compartir (og:image).
+  ogImageAlt:
+    'GUSTECH IT Solutions: soporte técnico y soluciones IT para particulares, profesionales, comercios y empresas',
+} as const;
+
+// Enlace de WhatsApp con mensaje precompletado. Único lugar donde se arma la URL.
+export const whatsappUrl = (text: string = site.whatsapp.message) =>
+  `https://wa.me/${site.whatsapp.number}?text=${encodeURIComponent(text)}`;
+
+// Lema de la consulta gratuita (se muestra en el hero y el footer).
+export const freeConsult = {
+  badge: 'Consulta inicial gratuita y sin compromiso',
+  short: 'Primera consulta gratis',
+} as const;
+
+// Zona de cobertura (confirmada por el propietario).
+// NO prometer mercado internacional en el sitio: es un plan a futuro.
+export const coverage = {
+  title: 'Presencial en CABA y AMBA, remoto en todo el país',
+  lead: 'Elegí la modalidad que más te sirva. En ambos casos empezás con una consulta gratuita.',
+  modes: [
+    {
+      icon: 'headset',
+      title: 'Remoto',
+      area: 'Toda la Argentina',
+      text: 'Resolvemos a distancia, estés en la provincia que estés, sin esperar traslados.',
+    },
+    {
+      icon: 'wrench',
+      title: 'Presencial',
+      area: 'Ciudad Autónoma de Buenos Aires y AMBA',
+      text: 'Visitas técnicas y retiro de equipos en toda la Ciudad y el Gran Buenos Aires. Se coordinan de antemano, según disponibilidad.',
+    },
+  ],
+  note: 'Si estás fuera del AMBA, el soporte es remoto.',
+  // Texto corto para el footer.
+  short: 'Remoto en todo el país · Presencial en CABA y AMBA',
 } as const;
 
 export const nav = [
@@ -26,14 +73,15 @@ export const nav = [
 ] as const;
 
 export const cta = {
-  label: 'Solicitar asesoramiento',
+  label: 'Pedí tu consulta gratuita',
   href: '/#contacto',
 } as const;
 
 export const hero = {
-  title: 'Soluciones IT para que tu empresa siga avanzando.',
+  eyebrow: 'Soporte y soluciones IT',
+  title: 'Soluciones IT para que vos y tu negocio sigan avanzando.',
   description:
-    'Brindamos soporte técnico, redes y conectividad, continuidad operativa y automatización para ayudar a empresas, comercios y profesionales a trabajar de forma más segura, ordenada y eficiente.',
+    'Soporte técnico, redes y conectividad, continuidad operativa y automatización para particulares, profesionales, comercios y empresas, desde una sola persona hasta equipos grandes. Para trabajar de forma más segura, ordenada y eficiente.',
   secondaryCta: { label: 'Conocer nuestros servicios', href: '#servicios' },
 } as const;
 
@@ -82,7 +130,7 @@ export const services = [
 export const solutions = [
   {
     title: 'Particulares y profesionales independientes',
-    text: 'Equipos que funcionan, redes del hogar o del estudio y soporte técnico remoto o presencial.',
+    text: 'Equipos que funcionan, redes del hogar o del estudio y soporte técnico cuando lo necesitás.',
   },
   {
     title: 'PyMEs y estudios sin área de sistemas',
@@ -99,7 +147,9 @@ export const solutions = [
 ] as const;
 
 // Atención a demanda (por incidente): la puerta de entrada. Sin abonos obligatorios.
-// No se publican aquí precios, recargos ni tiempos de respuesta: no están confirmados.
+// Regla: no se publican montos (precios, recargos ni tarifas) ni tiempos de respuesta, porque no
+// están confirmados. Sí se puede decir que la consulta inicial es gratuita y que el valor de cada
+// trabajo se acuerda antes de empezar.
 export const onDemand = {
   lead: 'Pedí una atención puntual cuando la necesitás. Si más adelante querés evitar los problemas antes de que aparezcan, podemos armar un abono mensual de mantenimiento preventivo.',
   levels: [
@@ -142,22 +192,25 @@ export const onDemand = {
 export const workSteps = [
   {
     title: 'Nos contás el problema',
-    text: 'Escribinos por correo con una descripción de lo que pasa. Una captura o una foto del error nos ayuda a entenderlo más rápido.',
+    text: 'Escribinos por correo o por WhatsApp contándonos qué pasa. Una captura o una foto del error nos ayuda a entenderlo más rápido.',
   },
   {
-    title: 'Definimos cómo resolverlo',
-    text: 'Vemos si se puede resolver a distancia o si hace falta una visita, y te informamos el valor antes de empezar.',
+    title: 'Evaluamos y te proponemos una solución',
+    text: 'La consulta inicial es gratuita y sin compromiso. Analizamos tu caso, vemos si se resuelve a distancia o con una visita, y te proponemos la solución con el valor acordado de antemano. Si te cierra, avanzamos.',
   },
   {
     title: 'Lo resolvemos',
-    text: 'Solucionamos el problema y, de paso, revisamos si tenés copia de seguridad o el disco al límite, para dejártelo anotado.',
+    text: 'Solucionamos el problema y, de paso, revisamos si tenés copia de seguridad o el disco al límite. Al terminar te entregamos un resumen escrito de lo que hicimos, con nuestras recomendaciones.',
   },
   {
     title: 'Cierre y seguimiento',
-    text: 'Te enviamos un resumen de lo que se hizo y, si querés, te proponemos la próxima mejora o un abono de mantenimiento preventivo.',
+    text: 'Cerramos el trabajo con vos y, si querés, te proponemos la próxima mejora o un abono mensual de mantenimiento preventivo.',
   },
 ] as const;
 
+// TODO (propietario): pasar los datos reales de "Nosotros" (quiénes son, trayectoria, enfoque).
+// Hasta entonces se mantiene este texto genérico; no agregar años de experiencia, clientes ni
+// credenciales que no estén confirmados.
 export const about = {
   text: 'En GUSTECH IT Solutions trabajamos para acercar soluciones tecnológicas prácticas a empresas, comercios y profesionales. Nuestro enfoque combina soporte técnico, redes, continuidad operativa y automatización, con una atención clara, ordenada y orientada a las necesidades de cada cliente.',
 } as const;
@@ -194,11 +247,11 @@ export const problems = [
 export const faq = [
   {
     q: '¿El soporte es remoto o presencial?',
-    a: 'Brindamos soporte técnico remoto y presencial. La asistencia presencial se coordina previamente, según la ubicación y la disponibilidad.',
+    a: 'Ofrecemos las dos modalidades. A distancia atendemos en todo el país. De forma presencial vamos a la Ciudad Autónoma de Buenos Aires y a todo el AMBA, con visitas coordinadas de antemano según disponibilidad. Si estás fuera del AMBA, el soporte es remoto.',
   },
   {
     q: '¿Atienden solo a empresas?',
-    a: 'No. Trabajamos con particulares, profesionales independientes, estudios, comercios, consultorios, emprendedores y PyMEs.',
+    a: 'No. Trabajamos con particulares, profesionales independientes, estudios, comercios, consultorios, emprendedores y empresas, desde una sola persona hasta equipos grandes.',
   },
   {
     q: '¿Cómo se contratan los servicios?',
@@ -206,7 +259,7 @@ export const faq = [
   },
   {
     q: '¿Qué pasa si tengo una urgencia?',
-    a: 'Escribinos describiendo el problema. Para comercios, estudios y oficinas que no pueden operar ofrecemos atención prioritaria, también fuera de horario, según disponibilidad y con tarifa diferencial.',
+    a: 'Escribinos por correo o WhatsApp describiendo el problema. Para comercios, estudios y oficinas que no pueden operar ofrecemos atención prioritaria, también fuera de horario, según disponibilidad y con tarifa diferencial.',
   },
   {
     q: '¿Conviene reparar mi PC o comprar una nueva?',
@@ -214,11 +267,11 @@ export const faq = [
   },
   {
     q: '¿Cuánto cuesta?',
-    a: 'No publicamos precios cerrados porque dependen del trabajo a realizar. Escribinos contando tu necesidad y te pasamos una propuesta.',
+    a: 'Consultarnos no tiene costo: la evaluación inicial es gratuita y sin compromiso. Después te proponemos una solución con el valor acordado de antemano, así sabés cuánto vas a pagar antes de aprobar nada. El valor depende del trabajo: si alcanza con soporte remoto o hace falta una visita, qué equipos o servicios están involucrados y qué tan urgente es. Por eso no publicamos precios cerrados.',
   },
   {
     q: '¿Cómo empiezo?',
-    a: 'Escribinos por correo con una breve descripción de lo que necesitás. Con esa información coordinamos los próximos pasos.',
+    a: 'Escribinos por correo o WhatsApp con una breve descripción de lo que necesitás. La primera consulta es gratuita y, con esa información, coordinamos los próximos pasos.',
   },
   {
     q: '¿Hacen copias de seguridad y se ocupan de la seguridad básica?',

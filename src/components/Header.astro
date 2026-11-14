@@ -1,12 +1,23 @@
 ---
 import Logo from './Logo.astro';
-import { nav, cta } from '../data/site';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { nav, cta, whatsappUrl } from '../data/site';
 ---
 
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="/#inicio">
       <Logo />
+    </a>
+
+    <a
+      class="wa-link"
+      href={whatsappUrl()}
+      target="_blank"
+      rel="noopener"
+      aria-label="Escribinos por WhatsApp (se abre en una pestaña nueva)"
+    >
+      <WhatsAppIcon />
     </a>
 
     <button
@@ -155,6 +166,24 @@ import { nav, cta } from '../data/site';
     display: none;
   }
 
+  /* WhatsApp: botón discreto de 44 px, siempre visible (el header es fijo). */
+  .wa-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-left: auto;
+    color: #fff;
+    background: #15803d;
+    border-radius: 50%;
+    transition: background-color 0.15s ease;
+  }
+  .wa-link:hover {
+    background: #166534;
+  }
+
   /* Móvil con JavaScript: panel desplegable bajo la cabecera. */
   :global(html.js) .header-inner {
     position: relative;
@@ -255,6 +284,13 @@ import { nav, cta } from '../data/site';
     }
     :global(html.js) .menu-toggle {
       display: none;
+    }
+    .nav-panel {
+      margin-left: auto;
+    }
+    .wa-link {
+      order: 3;
+      margin-left: 0;
     }
   }
 </style>

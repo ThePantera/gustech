@@ -1,6 +1,7 @@
 ---
 import Logo from './Logo.astro';
-import { nav, site } from '../data/site';
+import WhatsAppIcon from './WhatsAppIcon.astro';
+import { nav, site, whatsappUrl, coverage, freeConsult } from '../data/site';
 
 // Año calculado al generar el sitio.
 const year = new Date().getFullYear();
@@ -29,6 +30,20 @@ const year = new Date().getFullYear();
       <p class="footer-label">Contacto</p>
       <a href={`mailto:${site.email}`}>{site.email}</a>
       <a href={site.phone.href}>Tel. {site.phone.display}</a>
+      <a
+        class="footer-wa"
+        href={whatsappUrl()}
+        target="_blank"
+        rel="noopener"
+        aria-label={`Escribinos por WhatsApp al ${site.whatsapp.display} (se abre en una pestaña nueva)`}
+      >
+        <WhatsAppIcon size={18} />
+        <span>WhatsApp {site.whatsapp.display}</span>
+      </a>
+      <p class="footer-coverage">
+        <strong>{freeConsult.short}.</strong>
+        {coverage.short}.
+      </p>
     </div>
   </div>
 
@@ -78,6 +93,24 @@ const year = new Date().getFullYear();
   .footer-contact a {
     display: block;
     width: fit-content;
+  }
+
+  .footer-wa {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .footer-wa :global(svg) {
+    color: #4ade80;
+    flex: none;
+  }
+
+  .footer-coverage {
+    margin: var(--space-2) 0 0;
+    max-width: 22rem;
+  }
+  .footer-coverage strong {
+    color: #fff;
   }
 
   .footer-label {
