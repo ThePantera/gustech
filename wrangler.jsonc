@@ -1,11 +1,23 @@
 {
-  // Despliegue en Cloudflare como sitio estático (Workers Static Assets).
-  // El nombre debe coincidir con el nombre del proyecto creado en Cloudflare.
+  // Despliegue en Cloudflare: sitio estático (Workers Static Assets) + un Worker chico que
+  // atiende solo POST /api/contacto (formulario de contacto). El nombre debe coincidir con el
+  // proyecto creado en Cloudflare.
   "name": "gustech",
+  "main": "src/worker/index.ts",
   "compatibility_date": "2025-09-01",
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
     // Las rutas inexistentes devuelven dist/404.html con estado 404.
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    // El Worker solo se ejecuta para /api/*: el resto lo sirve Cloudflare directo.
+    "run_worker_first": ["/api/*"]
+  },
+  // Variables NO secretas. Los secretos (TURNSTILE_SECRET, RESEND_API_KEY) se cargan con
+  // `wrangler secret put` o en el panel de Cloudflare; nunca van en el repo.
+  "vars": {
+    "MAIL_TO": "contacto@gustech.com.ar",
+    "MAIL_FROM": "GUSTECH Web <web@envio.gustech.com.ar>",
+    "SITE_ORIGIN": "https://gustech.com.ar"
   }
 }
