@@ -1,13 +1,16 @@
 # Cabeceras de seguridad para todas las rutas (Cloudflare las aplica al servir los archivos).
-# El sitio no usa recursos de terceros, salvo la analítica web de Cloudflare (sin cookies ni
-# datos personales), que Cloudflare agrega en el dominio propio: se permite solo su script
-# (static.cloudflareinsights.com) y su destino de envío (cloudflareinsights.com).
-# 'unsafe-inline' es necesario porque Astro incluye en el HTML un script chico (menú móvil)
-# y los estilos; no hay entradas de usuario ni contenido de terceros.
+# Terceros permitidos:
+#  - Analítica web de Cloudflare (sin cookies ni datos personales): static.cloudflareinsights.com
+#    (script) y cloudflareinsights.com (envío).
+#  - Cloudflare Turnstile (anti-robots del formulario de contacto): challenges.cloudflare.com
+#    (script, iframe y conexión).
+# script-src NO usa 'unsafe-inline': Astro deja algunos scripts inline chicos y sus hashes sha256
+# se calculan en cada build (scripts/csp-hashes.mjs, "postbuild") reemplazando el marcador
+# de la directiva script-src por los hashes, en dist/_headers. No quitar ese marcador. style-src conserva 'unsafe-inline' (estilos de Astro).
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Strict-Transport-Security: max-age=31536000
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' __SCRIPT_HASHES__ https://static.cloudflareinsights.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
