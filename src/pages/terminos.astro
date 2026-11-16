@@ -1,0 +1,85 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { site } from '../data/site';
+import { legal } from '../data/legal';
+
+const toc = [
+  { id: 'uso', label: 'Uso del sitio' },
+  { id: 'propiedad', label: 'Propiedad intelectual' },
+  { id: 'informacion', label: 'Información orientativa' },
+  { id: 'responsabilidad', label: 'Limitación de responsabilidad' },
+  { id: 'enlaces', label: 'Enlaces de terceros' },
+  { id: 'modificaciones', label: 'Modificaciones' },
+  { id: 'ley', label: 'Ley aplicable y jurisdicción' },
+  { id: 'consumidor', label: 'Defensa del Consumidor' },
+];
+---
+
+<LegalPage
+  current="/terminos"
+  title={`Términos y condiciones | ${site.name}`}
+  description="Condiciones de uso del sitio de GUSTECH IT Solutions: propiedad intelectual, alcance de la información, responsabilidad, ley aplicable y Defensa del Consumidor."
+  heading="Términos y condiciones"
+  lead="Estas condiciones regulan el uso del sitio web de GUSTECH IT Solutions. Al navegarlo o usar el formulario de contacto, las aceptás."
+  toc={toc}
+>
+  <h2 id="uso">Uso del sitio</h2>
+  <p>
+    Podés usar este sitio para informarte sobre nuestros servicios y para contactarnos. Te comprometés a usarlo
+    de buena fe, a darnos datos verdaderos y a no hacer nada que dañe su funcionamiento, como intentar vulnerar
+    su seguridad, enviar spam o automatizar envíos del formulario.
+  </p>
+
+  <h2 id="propiedad">Propiedad intelectual</h2>
+  <p>
+    La marca GUSTECH, el logo, los textos, el diseño y el resto de los contenidos del sitio son © GUSTECH. Todos
+    los derechos reservados. Queda prohibida su reproducción, copia, modificación o distribución, total o
+    parcial, sin autorización previa y por escrito.
+  </p>
+
+  <h2 id="informacion">Información orientativa</h2>
+  <p>
+    El contenido del sitio es informativo y orientativo. No constituye una oferta vinculante ni promete
+    resultados específicos. La consulta inicial es gratuita y sin compromiso. El valor de cada trabajo se acuerda
+    con vos antes de empezar. Las condiciones concretas de cada servicio se definen en el acuerdo que hagamos
+    con vos.
+  </p>
+
+  <h2 id="responsabilidad">Limitación de responsabilidad</h2>
+  <p>
+    Procuramos que la información del sitio sea correcta y esté actualizada, pero no garantizamos que no tenga
+    errores ni que el sitio esté disponible sin interrupciones. En la medida que la ley lo permite, no
+    respondemos por daños derivados del uso del sitio o de la imposibilidad de usarlo.
+  </p>
+  <p class="legal-note">
+    Nada de lo dicho excluye ni limita los derechos que te reconoce la Ley Nº 24.240 de Defensa del Consumidor
+    ni otras normas de orden público que no pueden dejarse de lado.
+  </p>
+
+  <h2 id="enlaces">Enlaces de terceros</h2>
+  <p>
+    El sitio puede enlazar a páginas de terceros (por ejemplo, WhatsApp o sitios de organismos públicos). No
+    controlamos ese contenido ni nos hacemos responsables de él. Su uso se rige por las condiciones de cada
+    sitio.
+  </p>
+
+  <h2 id="modificaciones">Modificaciones</h2>
+  <p>
+    Podemos cambiar estas condiciones o el contenido del sitio en cualquier momento. Rige la versión publicada,
+    con la fecha de última actualización que figura arriba.
+  </p>
+
+  <h2 id="ley">Ley aplicable y jurisdicción</h2>
+  <p>
+    Estas condiciones se rigen por las leyes de la República Argentina. Para cualquier controversia, las partes
+    se someten a los tribunales ordinarios de la Ciudad Autónoma de Buenos Aires, salvo que las normas de
+    consumo te habiliten a acudir a otro fuero, por ejemplo el de tu domicilio.
+  </p>
+
+  <h2 id="consumidor">Defensa del Consumidor</h2>
+  <p>
+    Si sos consumidor, podés presentar reclamos ante la autoridad de aplicación de la Ley Nº 24.240 en
+    <a href={legal.consumerDefenseUrl} target="_blank" rel="noopener noreferrer">Defensa del Consumidor</a>.
+    También podés escribirnos primero a <a href={`mailto:${site.email}`}>{site.email}</a> y buscamos resolverlo.
+  </p>
+</LegalPage>

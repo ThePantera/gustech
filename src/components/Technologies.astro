@@ -1,0 +1,93 @@
+---
+import Icon from './Icon.astro';
+
+// Herramientas que ya figuran en el sitio. Sin logos ni marcas de terceros: solo texto e íconos propios.
+const tools = [
+  { icon: 'bolt', name: 'Google Workspace', text: 'Correo corporativo y trabajo colaborativo.' },
+  { icon: 'bolt', name: 'Microsoft 365', text: 'Correo y herramientas de oficina en equipo.' },
+  { icon: 'window', name: 'Windows', text: 'Instalación, configuración y reparación.' },
+  { icon: 'wifi', name: 'Routers y Wi-Fi', text: 'Redes estables y de buen alcance.' },
+  { icon: 'shield', name: 'Backups en la nube', text: 'Tus datos respaldados, también fuera del equipo.' },
+] as const;
+---
+
+<section class="section tech" id="herramientas" aria-labelledby="herramientas-title">
+  <div class="container">
+    <div class="tech-head">
+      <p class="tech-eyebrow">Herramientas</p>
+      <h2 id="herramientas-title">Trabajamos con lo que ya usás</h2>
+      <p class="tech-lead">
+        No te obligamos a cambiar de plataforma: configuramos y ordenamos las herramientas que tu
+        trabajo necesita.
+      </p>
+    </div>
+    <ul class="tech-list" role="list">
+      {
+        tools.map((t) => (
+          <li class="tech-item">
+            <span class="tech-icon"><Icon name={t.icon} /></span>
+            <div>
+              <h3>{t.name}</h3>
+              <p>{t.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tech {
+    background: var(--color-navy);
+    color: #cbd5e1;
+    padding-block: var(--space-7);
+  }
+  .tech h2,
+  .tech h3 {
+    color: #fff;
+  }
+  .tech-head {
+    max-width: 40rem;
+    margin-bottom: var(--space-5);
+  }
+  .tech-eyebrow {
+    margin: 0 0 var(--space-2);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-cyan);
+  }
+  .tech-lead {
+    font-size: var(--text-lg);
+    margin: 0;
+  }
+  .tech-list {
+    display: grid;
+    gap: var(--space-4) var(--space-5);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tech-item {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding-top: var(--space-3);
+    border-top: 1px solid rgb(148 163 184 / 0.3);
+  }
+  .tech-icon {
+    flex: none;
+    color: var(--color-cyan);
+  }
+  .tech-item h3 {
+    margin: 0 0 var(--space-1);
+    font-size: 1.125rem;
+  }
+  .tech-item p {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+</style>

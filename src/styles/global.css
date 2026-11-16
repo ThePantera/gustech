@@ -99,6 +99,8 @@ svg {
 
 /* Fondos oscuros: foco claro para mantener el contraste. */
 .hero :focus-visible,
+.tech :focus-visible,
+.closing :focus-visible,
 .site-footer :focus-visible,
 .contact-card :focus-visible {
   outline-color: var(--color-focus-on-dark);
@@ -117,6 +119,12 @@ main:focus {
 
 .section {
   padding-block: var(--space-6);
+}
+@media (min-width: 56rem) {
+  /* Bloques más aireados en pantallas anchas. */
+  .section {
+    padding-block: var(--space-7);
+  }
 }
 
 /* Botones */
@@ -143,6 +151,11 @@ main:focus {
 }
 .btn-primary:hover {
   background: var(--color-primary-dark);
+}
+
+.btn-lg {
+  padding: 1rem 1.75rem;
+  font-size: var(--text-base);
 }
 
 .btn-secondary {

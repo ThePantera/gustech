@@ -66,11 +66,10 @@ export const coverage = {
 
 export const nav = [
   // Los enlaces parten de "/" para que también funcionen desde la página 404.
-  { label: 'Inicio', href: '/#inicio' },
   { label: 'Servicios', href: '/#servicios' },
-  { label: 'Para quién', href: '/#soluciones' },
-  { label: 'Cómo trabajamos', href: '/#como-trabajamos' },
-  { label: 'Nosotros', href: '/#nosotros' },
+  { label: 'Soluciones', href: '/#soluciones' },
+  { label: 'Cobertura', href: '/#cobertura' },
+  { label: 'Trabajá con nosotros', href: '/#trabaja-con-nosotros' },
   { label: 'Contacto', href: '/#contacto' },
 ] as const;
 
@@ -81,10 +80,10 @@ export const cta = {
 
 export const hero = {
   eyebrow: 'Soporte y soluciones IT',
-  title: 'Soluciones IT para que vos y tu negocio sigan avanzando.',
+  title: 'Tu tecnología, resuelta sin vueltas.',
   description:
-    'Soporte técnico, redes y conectividad, continuidad operativa y automatización para particulares, profesionales, comercios y empresas, desde una sola persona hasta equipos grandes. Para trabajar de forma más segura, ordenada y eficiente.',
-  secondaryCta: { label: 'Conocer nuestros servicios', href: '#servicios' },
+    'Te ayudamos con soporte técnico, redes, copias de seguridad y automatización. Para particulares, comercios y empresas, de forma remota en todo el país o en persona en CABA y AMBA.',
+  secondaryCta: { label: 'Ver qué hacemos', href: '#servicios' },
 } as const;
 
 // Servicios del lanzamiento, confirmados por el propietario.

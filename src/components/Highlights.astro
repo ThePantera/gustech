@@ -1,0 +1,65 @@
+---
+// Banda de cifras: solo datos confirmados del servicio (sin métricas históricas ni de clientes).
+const figures = [
+  { value: '$0', label: 'Primera consulta', text: 'Gratuita y sin compromiso.' },
+  { value: '4', label: 'Áreas de servicio', text: 'Soporte, redes, continuidad y automatización.' },
+  { value: '100%', label: 'Del país con soporte remoto', text: 'Presencial en CABA y AMBA.' },
+  { value: 'Por escrito', label: 'Resumen de cada trabajo', text: 'Con lo que hicimos y recomendaciones.' },
+];
+---
+
+<section class="highlights" aria-label="GUSTECH en cifras">
+  <div class="container">
+    <ul class="fig-list" role="list">
+      {
+        figures.map((f) => (
+          <li class="fig">
+            <p class="fig-value">{f.value}</p>
+            <p class="fig-label">{f.label}</p>
+            <p class="fig-text">{f.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .highlights {
+    padding-block: var(--space-6);
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .fig-list {
+    display: grid;
+    gap: var(--space-5) var(--space-4);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .fig {
+    padding-left: var(--space-3);
+    border-left: 3px solid var(--color-cyan);
+  }
+  .fig p {
+    margin: 0;
+  }
+  .fig-value {
+    font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--color-primary);
+  }
+  .fig-label {
+    margin-top: var(--space-2) !important;
+    font-weight: 700;
+    color: var(--color-navy);
+  }
+  .fig-text {
+    margin-top: var(--space-1) !important;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

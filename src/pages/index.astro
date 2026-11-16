@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import Highlights from '../components/Highlights.astro';
+import Technologies from '../components/Technologies.astro';
+import ClosingCta from '../components/ClosingCta.astro';
 import Problems from '../components/Problems.astro';
 import Services from '../components/Services.astro';
 import OnDemand from '../components/OnDemand.astro';
@@ -15,14 +18,17 @@ import ContactSection from '../components/ContactSection.astro';
 
 <BaseLayout>
   <Hero />
-  <Problems />
+  <Highlights />
   <Services />
-  <OnDemand />
+  <Problems />
   <Solutions />
+  <OnDemand />
+  <Technologies />
   <Process />
   <Coverage />
   <About />
   <Faq />
   <Careers />
+  <ClosingCta />
   <ContactSection />
 </BaseLayout>

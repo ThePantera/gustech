@@ -1,0 +1,47 @@
+---
+import { cta, freeConsult } from '../data/site';
+---
+
+<section class="closing" aria-labelledby="closing-title">
+  <div class="container closing-inner">
+    <h2 id="closing-title">¿Algo no funciona o querés ordenar tu tecnología?</h2>
+    <p>
+      Contanos qué pasa. La primera consulta es gratis, sin compromiso, y el valor de cada trabajo lo
+      acordamos antes de empezar.
+    </p>
+    <a class="btn btn-primary btn-lg" href={cta.href}>{cta.label}</a>
+    <p class="closing-note">{freeConsult.badge}</p>
+  </div>
+</section>
+
+<style>
+  .closing {
+    padding-block: var(--space-7);
+    text-align: center;
+    color: #cbd5e1;
+    background:
+      radial-gradient(40rem 18rem at 50% 0%, rgb(37 99 235 / 0.35), transparent 70%),
+      var(--color-navy);
+  }
+  .closing-inner {
+    max-width: 44rem;
+  }
+  .closing h2 {
+    color: #fff;
+    font-size: var(--text-2xl);
+  }
+  .closing p {
+    font-size: var(--text-lg);
+  }
+  .closing .btn {
+    margin-top: var(--space-3);
+  }
+  .closing :global(.btn:focus-visible) {
+    outline-color: var(--color-focus-on-dark);
+  }
+  .closing p.closing-note {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    color: #94a3b8;
+  }
+</style>

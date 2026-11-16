@@ -18,8 +18,8 @@ const packets = [
       <h1 id="hero-title">{hero.title}</h1>
       <p class="hero-lead">{hero.description}</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href={cta.href}>{cta.label}</a>
-        <a class="btn btn-on-dark" href={hero.secondaryCta.href}>{hero.secondaryCta.label}</a>
+        <a class="btn btn-primary btn-lg" href={cta.href}>{cta.label}</a>
+        <a class="hero-link" href={hero.secondaryCta.href}>{hero.secondaryCta.label}<span aria-hidden="true"> →</span></a>
       </div>
       <p class="hero-free">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg>
@@ -90,7 +90,7 @@ const packets = [
     isolation: isolate;
     overflow: hidden;
     color: #cbd5e1;
-    padding-block: var(--space-6);
+    padding-block: var(--space-7);
     /* Brillos suaves de color sobre el azul marino. */
     background:
       radial-gradient(56rem 26rem at 88% 8%, rgb(37 99 235 / 0.3), transparent 62%),
@@ -140,8 +140,22 @@ const packets = [
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
     margin-top: var(--space-4);
+  }
+
+  /* CTA secundario discreto: enlace de texto. */
+  .hero-link {
+    color: #e2e8f0;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+    text-decoration-color: rgb(226 232 240 / 0.4);
+  }
+  .hero-link:hover {
+    color: var(--color-cyan);
+    text-decoration-color: currentColor;
   }
 
   .hero-free {
