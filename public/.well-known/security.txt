@@ -1,0 +1,5 @@
+# Para reportar una vulnerabilidad de gustech.com.ar escribinos por correo.
+Contact: mailto:contacto@gustech.com.ar
+Expires: 2027-11-01T00:00:00.000Z
+Preferred-Languages: es, en
+Canonical: https://gustech.com.ar/.well-known/security.txt
