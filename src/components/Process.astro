@@ -1,5 +1,9 @@
 ---
 import { workSteps } from '../data/site';
+import ProcessArt from './ProcessArt.astro';
+
+// Una ilustración por paso, en el mismo orden que `workSteps`.
+const art = ['contar', 'evaluar', 'resolver', 'cierre'] as const;
 ---
 
 <section class="section section-alt" id="como-trabajamos" aria-labelledby="proceso-title">
@@ -11,8 +15,11 @@ import { workSteps } from '../data/site';
 
     <ol class="steps" role="list">
       {
-        workSteps.map((step) => (
+        workSteps.map((step, i) => (
           <li class="step">
+            <div class="step-art">
+              <ProcessArt name={art[i]} />
+            </div>
             <h3>{step.title}</h3>
             <p>{step.text}</p>
           </li>
@@ -86,6 +93,17 @@ import { workSteps } from '../data/site';
     :global(html.reveal-ready) .steps.is-drawn::before {
       transform: scaleX(1);
     }
+  }
+
+  .step-art {
+    width: 8.5rem;
+    height: 8.5rem;
+    margin-bottom: var(--space-3);
+    padding: 0.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 18px -10px rgb(16 28 50 / 0.35);
   }
 
   .step h3 {
