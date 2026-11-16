@@ -1,0 +1,100 @@
+---
+// Ilustraciones propias (SVG inline, decorativas) de las tres modalidades de atención a demanda.
+// Dibujadas para GUSTECH con la paleta del sitio; no provienen de ninguna librería ni sitio externo.
+interface Props {
+  name: 'remoto' | 'visita' | 'urgencia';
+}
+const { name } = Astro.props;
+---
+
+<svg class="art" viewBox="0 0 96 96" width="96" height="96" fill="none" aria-hidden="true" focusable="false">
+  {
+    name === 'remoto' && (
+      <>
+        {/* Notebook con auricular y señal */}
+        <rect class="t s" x="10" y="26" width="56" height="38" rx="5" />
+        <path class="white s" d="M4 70h68l-5 7H9Z" />
+        <g transform="translate(23 31) scale(1.3)">
+          <path class="a thin" d="M4 14v-2a8 8 0 0 1 16 0v2" />
+          <path class="f s thin" d="M4 14h3v5H5a1 1 0 0 1-1-1v-4Z" />
+          <path class="f s thin" d="M20 14h-3v5h2a1 1 0 0 0 1-1v-4Z" />
+        </g>
+        <path class="a" d="M72 12a16 16 0 0 1 16 16" />
+        <path class="a" d="M72 21a7 7 0 0 1 7 7" />
+        <path class="a dots" d="M72 28h.01" />
+      </>
+    )
+  }
+  {
+    name === 'visita' && (
+      <>
+        {/* Casa con marcador de ubicación */}
+        <path class="t s" d="M14 90V66l34-18 34 18v24Z" />
+        <rect class="white s" x="41" y="72" width="14" height="18" rx="2" />
+        <path class="f s" d="M48 6a18 18 0 0 1 18 18c0 14-18 36-18 36S30 38 30 24A18 18 0 0 1 48 6Z" />
+        <circle class="white" cx="48" cy="24" r="7" />
+      </>
+    )
+  }
+  {
+    name === 'urgencia' && (
+      <>
+        {/* Pantalla con rayo y aviso */}
+        <rect class="t s" x="8" y="22" width="60" height="42" rx="5" />
+        <path class="s" d="M30 64v10M20 74h30" />
+        <path class="bolt s" transform="translate(21 26) scale(1.5)" d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" />
+        <circle class="red s" cx="72" cy="26" r="14" />
+        <path class="w" d="M72 19v8" />
+        <path class="w dots" d="M72 32.5h.01" />
+      </>
+    )
+  }
+</svg>
+
+<style>
+  .art {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .s {
+    stroke: var(--color-navy);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .a {
+    stroke: var(--color-primary);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .w {
+    stroke: #fff;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .thin {
+    stroke-width: 1.8;
+  }
+  .dots {
+    stroke-width: 4;
+  }
+  .t {
+    fill: rgb(6 182 212 / 0.14);
+  }
+  .f {
+    fill: var(--color-primary);
+  }
+  .white {
+    fill: #fff;
+  }
+  .bolt {
+    fill: #fde68a;
+    stroke-width: 1.6;
+  }
+  .red {
+    fill: #dc2626;
+  }
+</style>
