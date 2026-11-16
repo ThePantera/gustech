@@ -1,0 +1,69 @@
+---
+import { site, careers } from '../data/site';
+
+const mailto = `mailto:${site.rrhhEmail}?subject=${encodeURIComponent(careers.subject)}&body=${encodeURIComponent(careers.body)}`;
+---
+
+<section class="section" id="trabaja-con-nosotros" aria-labelledby="careers-title">
+  <div class="container careers">
+    <div class="careers-text">
+      <p class="eyebrow">Trabajá con nosotros</p>
+      <h2 id="careers-title">{careers.title}</h2>
+      <p class="lead">{careers.lead}</p>
+      <p class="note">{careers.privacy}</p>
+    </div>
+
+    <div class="card careers-card">
+      <h3>Dejanos tu CV</h3>
+      <ol>
+        {careers.steps.map((step) => <li>{step}</li>)}
+      </ol>
+      <a class="btn btn-primary" href={mailto}>Enviar mi CV</a>
+      <p class="careers-mail">
+        O escribinos directo a <a href={`mailto:${site.rrhhEmail}`}>{site.rrhhEmail}</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  .careers-text .lead {
+    margin: 0;
+  }
+
+  .careers-card h3 {
+    margin-top: 0;
+  }
+
+  ol {
+    margin: 0 0 var(--space-4);
+    padding-left: 1.25rem;
+    display: grid;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+  }
+
+  li::marker {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  .careers-mail {
+    margin: var(--space-3) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 56rem) {
+    .careers {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-6);
+    }
+  }
+</style>

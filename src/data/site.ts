@@ -6,6 +6,8 @@ export const site = {
   shortName: 'GUSTECH',
   url: 'https://gustech.com.ar',
   email: 'contacto@gustech.com.ar',
+  // Correo de Recursos Humanos (alias del buzón del propietario): recibe los CV de candidatos.
+  rrhhEmail: 'rrhh@gustech.com.ar',
   // Teléfono: contacto SECUNDARIO (el principal es el correo). Formato nacional.
   phone: { display: '11 2388-4030', href: 'tel:1123884030' },
   // WhatsApp: provisorio, mismo número que el teléfono. Cuando haya una línea dedicada, cambiar
@@ -282,4 +284,19 @@ export const faq = [
 export const contact = {
   subject: 'Consulta desde gustech.com.ar',
   body: 'Hola, quiero consultar sobre sus servicios.\n\nNombre o empresa:\nQué necesito:\n',
+} as const;
+
+// Sección "¿Querés trabajar con nosotros?". No se publican puestos ni búsquedas concretas porque no
+// las hay confirmadas: es una bolsa de perfiles para futuros proyectos. Los CV llegan por correo.
+export const careers = {
+  title: '¿Querés trabajar con nosotros?',
+  lead: 'Nos gusta conocer gente que se anime a resolver problemas reales. Por ahora no tenemos una búsqueda abierta, pero guardamos cada perfil para sumar colaboración en futuros proyectos.',
+  steps: [
+    'Mandanos tu CV por correo (PDF, de preferencia).',
+    'Contanos en pocas líneas en qué área te gustaría colaborar y desde dónde trabajarías.',
+    'Si surge un proyecto que encaje con tu perfil, te escribimos nosotros.',
+  ],
+  privacy: 'Usamos tus datos únicamente para contactarte por oportunidades de trabajo con GUSTECH.',
+  subject: 'CV - Quiero trabajar con GUSTECH',
+  body: 'Hola, les dejo mi CV adjunto.\n\nNombre y apellido:\nÁrea de interés:\nZona o modalidad (remoto / presencial):\nLink a LinkedIn o portafolio (opcional):\n',
 } as const;
